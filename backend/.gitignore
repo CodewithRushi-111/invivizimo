@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+
+# Secrets and environment configurations
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Build output
+dist/
+build/
+out/
+*.tsbuildinfo
+
+# Logs & coverage
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+coverage/
+.nyc_output/
+
+# OS and Editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+.cursorignore
+.cursorrules
+../.cursorignore
+../.cursorrules
+mcp.json
+../mcp.json

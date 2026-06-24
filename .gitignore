@@ -1,0 +1,36 @@
+# Cursor files
+.cursorignore
+.cursorrules
+mcp.json
+
+
+# Backend files
+backend/node_modules/
+backend/dist/
+backend/build/
+backend/out/
+backend/.env
+backend/.env.*
+!backend/.env.example
+backend/*.log
+backend/npm-debug.log*
+backend/yarn-debug.log*
+backend/yarn-error.log*
+backend/coverage/
+backend/.nyc_output/
+
+# Frontend files
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/out/
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+frontend/.eslintcache
+
+# OS and Editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
