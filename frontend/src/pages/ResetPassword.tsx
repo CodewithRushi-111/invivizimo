@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { Link, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import { env } from '../lib/env';
+import { AuthLayout } from '../components/AuthLayout';
 
 const resetPasswordSchema = z.object({
   token: z.string().min(1, 'Token is required'),
@@ -22,6 +23,8 @@ export const ResetPassword: React.FC = () => {
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const {
     register,
@@ -58,150 +61,152 @@ export const ResetPassword: React.FC = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <div className="card glass-panel" style={styles.authCard}>
-        <div style={styles.cardHeader}>
-          <Link to="/" style={styles.logoLink}>
-            <span style={styles.logoText}>Invivizimo</span>
-          </Link>
-          <h2 style={styles.title}>New Password</h2>
-          <p style={styles.subtitle}>Enter your recovery token and new password details</p>
-        </div>
-
-        {errorMsg && (
-          <div className="alert alert-error" style={{ marginBottom: '16px' }}>
-            <span>⚠️ {errorMsg}</span>
+    <AuthLayout>
+      <div className="w-full max-w-[420px]">
+        <header className="mb-10 text-center lg:text-left">
+          {/* Mobile branding logo */}
+          <div className="lg:hidden mb-6 flex items-center justify-center gap-2">
+            <div className="bg-white px-3 py-1.5 rounded-lg flex items-center justify-center shadow-sm border border-border-muted">
+              <img src="/logo.png" alt="Invoizmo" className="h-6 object-contain" />
+            </div>
+            <span className="font-display text-xl font-bold">Invoizmo</span>
           </div>
-        )}
+          <h2 className="font-display text-2xl md:text-3xl font-extrabold text-on-surface mb-2 tracking-tight">New Password</h2>
+          <p className="font-sans text-sm md:text-base text-on-surface-variant">Enter your recovery token and new password details</p>
+        </header>
 
-        {successMsg && (
-          <div className="alert alert-success" style={{ marginBottom: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            <span>✓ {successMsg}</span>
-            <Link to="/login" className="btn btn-primary" style={{ alignSelf: 'flex-start', padding: '6px 12px', fontSize: '13px', textDecoration: 'none' }}>
-              Proceed to Sign In
+        <div className="space-y-6">
+          {errorMsg && (
+            <div className="p-4 rounded-xl border bg-error-container/10 border-error/20 text-error flex items-start gap-2.5 text-sm font-medium">
+              <span className="material-symbols-outlined text-[18px]">warning</span>
+              <span>{errorMsg}</span>
+            </div>
+          )}
+
+          {successMsg && (
+            <div className="p-5 rounded-xl border bg-secondary-container/15 border-secondary/20 text-on-surface flex flex-col gap-4 text-sm font-medium">
+              <div className="flex items-start gap-2.5">
+                <span className="material-symbols-outlined text-secondary text-[22px]">check_circle</span>
+                <span>{successMsg}</span>
+              </div>
+              <Link
+                to="/login"
+                className="w-full text-center py-2.5 bg-primary-container hover:bg-primary text-on-primary font-semibold rounded-lg transition-colors text-sm shadow-sm"
+              >
+                Proceed to Sign In
+              </Link>
+            </div>
+          )}
+
+          {!successMsg && (
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+              <div className="space-y-2">
+                <label className="font-sans text-sm font-semibold text-on-surface" htmlFor="reset-token">
+                  Recovery Token
+                </label>
+                <input
+                  id="reset-token"
+                  type="text"
+                  placeholder="Paste token from email/console"
+                  className={`w-full px-4 py-3 rounded-lg border bg-surface-container-lowest focus:ring-4 focus:ring-primary-container/15 focus:border-primary-container outline-none transition-all duration-200 text-on-surface text-sm ${
+                    errors.token ? 'border-error focus:border-error focus:ring-error/15' : 'border-border-muted'
+                  }`}
+                  {...register('token')}
+                />
+                {errors.token && (
+                  <p className="text-xs text-error font-medium flex items-center gap-1">
+                    <span className="material-symbols-outlined text-[14px]">error</span>
+                    {errors.token.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <label className="font-sans text-sm font-semibold text-on-surface" htmlFor="reset-password">
+                  New Password
+                </label>
+                <div className="relative">
+                  <input
+                    id="reset-password"
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="••••••••"
+                    className={`w-full px-4 py-3 rounded-lg border bg-surface-container-lowest focus:ring-4 focus:ring-primary-container/15 focus:border-primary-container outline-none transition-all duration-200 text-on-surface text-sm ${
+                      errors.password ? 'border-error focus:border-error focus:ring-error/15' : 'border-border-muted'
+                    }`}
+                    {...register('password')}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-on-surface transition-colors"
+                  >
+                    <span className="material-symbols-outlined text-[20px]">
+                      {showPassword ? 'visibility_off' : 'visibility'}
+                    </span>
+                  </button>
+                </div>
+                {errors.password && (
+                  <p className="text-xs text-error font-medium flex items-center gap-1">
+                    <span className="material-symbols-outlined text-[14px]">error</span>
+                    {errors.password.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <label className="font-sans text-sm font-semibold text-on-surface" htmlFor="reset-confirm-password">
+                  Confirm New Password
+                </label>
+                <div className="relative">
+                  <input
+                    id="reset-confirm-password"
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    placeholder="Repeat new password"
+                    className={`w-full px-4 py-3 rounded-lg border bg-surface-container-lowest focus:ring-4 focus:ring-primary-container/15 focus:border-primary-container outline-none transition-all duration-200 text-on-surface text-sm ${
+                      errors.confirmPassword ? 'border-error focus:border-error focus:ring-error/15' : 'border-border-muted'
+                    }`}
+                    {...register('confirmPassword')}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-on-surface transition-colors"
+                  >
+                    <span className="material-symbols-outlined text-[20px]">
+                      {showConfirmPassword ? 'visibility_off' : 'visibility'}
+                    </span>
+                  </button>
+                </div>
+                {errors.confirmPassword && (
+                  <p className="text-xs text-error font-medium flex items-center gap-1">
+                    <span className="material-symbols-outlined text-[14px]">error</span>
+                    {errors.confirmPassword.message}
+                  </p>
+                )}
+              </div>
+
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full py-3.5 bg-primary-container hover:bg-primary text-on-primary font-sans text-sm md:text-base font-semibold rounded-lg transition-all duration-300 shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isLoading ? 'Resetting password...' : 'Update Password'}
+              </button>
+            </form>
+          )}
+
+          <footer className="mt-8 text-center">
+            <Link
+              to="/login"
+              className="font-sans text-sm font-semibold text-text-muted hover:text-on-surface transition-colors"
+            >
+              ← Back to Sign In
             </Link>
-          </div>
-        )}
-
-        {!successMsg && (
-          <form onSubmit={handleSubmit(onSubmit)} style={styles.form}>
-            <div className="form-group">
-              <label className="form-label">Recovery Token</label>
-              <input
-                type="text"
-                className={`form-input ${errors.token ? 'is-invalid' : ''}`}
-                placeholder="Paste token from console log"
-                {...register('token')}
-              />
-              {errors.token && <span className="error-text">{errors.token.message}</span>}
-            </div>
-
-            <div className="form-group">
-              <label className="form-label">New Password</label>
-              <input
-                type="password"
-                className={`form-input ${errors.password ? 'is-invalid' : ''}`}
-                placeholder="At least 8 characters"
-                {...register('password')}
-              />
-              {errors.password && <span className="error-text">{errors.password.message}</span>}
-            </div>
-
-            <div className="form-group">
-              <label className="form-label">Confirm New Password</label>
-              <input
-                type="password"
-                className={`form-input ${errors.confirmPassword ? 'is-invalid' : ''}`}
-                placeholder="Repeat new password"
-                {...register('confirmPassword')}
-              />
-              {errors.confirmPassword && (
-                <span className="error-text">{errors.confirmPassword.message}</span>
-              )}
-            </div>
-
-            <button type="submit" className="btn btn-primary" style={styles.submitBtn} disabled={isLoading}>
-              {isLoading ? 'Resetting...' : 'Update Password'}
-            </button>
-          </form>
-        )}
-
-        <div style={styles.footerLinkRow}>
-          <Link to="/login" style={styles.backLink}>
-            ← Back to Sign In
-          </Link>
+          </footer>
         </div>
       </div>
-    </div>
+    </AuthLayout>
   );
-};
-
-const styles = {
-  container: {
-    width: '100vw',
-    height: '100vh',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'var(--bg-app)',
-    padding: '16px',
-  },
-  authCard: {
-    width: '420px',
-    maxWidth: '100%',
-    padding: '36px',
-    borderRadius: 'var(--radius-xl)',
-    border: '1px solid var(--glass-border)',
-    boxShadow: 'var(--shadow-xl)',
-  },
-  cardHeader: {
-    textAlign: 'center' as const,
-    marginBottom: '28px',
-    display: 'flex',
-    flexDirection: 'column' as const,
-    alignItems: 'center',
-  },
-  logoLink: {
-    textDecoration: 'none',
-    marginBottom: '16px',
-  },
-  logoText: {
-    fontSize: '24px',
-    fontWeight: '700',
-    color: 'var(--text-primary)',
-    letterSpacing: '-0.02em',
-  },
-  title: {
-    fontSize: '22px',
-    fontWeight: '600',
-    color: 'var(--text-primary)',
-    marginBottom: '6px',
-  },
-  subtitle: {
-    fontSize: '14px',
-    color: 'var(--text-secondary)',
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column' as const,
-    gap: '20px',
-  },
-  submitBtn: {
-    width: '100%',
-    padding: '12px',
-    marginTop: '8px',
-  },
-  footerLinkRow: {
-    marginTop: '24px',
-    display: 'flex',
-    justifyContent: 'center',
-    fontSize: '14px',
-  },
-  backLink: {
-    color: 'var(--text-secondary)',
-    textDecoration: 'none',
-    fontWeight: '500',
-  },
 };
 
 export default ResetPassword;

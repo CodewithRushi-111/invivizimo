@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../auth/AuthProvider';
 import { env } from '../lib/env';
+import { AuthLayout } from '../components/AuthLayout';
 
 export const VerifyEmail: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -48,204 +49,98 @@ export const VerifyEmail: React.FC = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <div className="card glass-panel" style={styles.authCard}>
-        <div style={styles.cardHeader}>
-          <Link to="/" style={styles.logoLink}>
-            <span style={styles.logoText}>Invivizimo</span>
-          </Link>
-          <h2 style={styles.title}>Email Verification</h2>
-          <p style={styles.subtitle}>Activating your invoice workspace account</p>
-        </div>
-
-        {status === 'loading' && (
-          <div style={styles.stateContainer}>
-            <div style={styles.spinner} />
-            <span style={styles.stateText}>Verifying token validity...</span>
+    <AuthLayout>
+      <div className="w-full max-w-[420px]">
+        <header className="mb-10 text-center lg:text-left">
+          {/* Mobile branding logo */}
+          <div className="lg:hidden mb-6 flex items-center justify-center gap-2">
+            <div className="bg-white px-3 py-1.5 rounded-lg flex items-center justify-center shadow-sm border border-border-muted">
+              <img src="/logo.png" alt="Invoizmo" className="h-6 object-contain" />
+            </div>
+            <span className="font-display text-xl font-bold">Invoizmo</span>
           </div>
-        )}
+          <h2 className="font-display text-2xl md:text-3xl font-extrabold text-on-surface mb-2 tracking-tight">Email Verification</h2>
+          <p className="font-sans text-sm md:text-base text-on-surface-variant">Activating your invoice workspace account</p>
+        </header>
 
-        {status === 'success' && (
-          <div style={styles.stateContainer}>
-            <div style={styles.successBadge}>✓</div>
-            <span style={styles.successText}>{msg || 'Email verified successfully!'}</span>
-            <Link to={user ? '/dashboard' : '/login'} className="btn btn-primary" style={styles.actionBtn}>
-              {user ? 'Go to Dashboard' : 'Sign In Now'}
+        <div className="space-y-6">
+          {status === 'loading' && (
+            <div className="flex flex-col items-center justify-center py-8 gap-4 text-center">
+              <div className="w-10 h-10 rounded-full border-4 border-border-muted border-t-primary animate-spin" />
+              <span className="font-sans text-sm text-text-muted">Verifying token validity...</span>
+            </div>
+          )}
+
+          {status === 'success' && (
+            <div className="flex flex-col items-center justify-center py-8 gap-6 text-center">
+              <div className="w-16 h-16 rounded-full bg-secondary/10 text-secondary border border-secondary/30 flex items-center justify-center text-3xl font-bold shadow-md shadow-secondary/10">
+                <span className="material-symbols-outlined text-[32px]">check_circle</span>
+              </div>
+              <span className="font-sans text-sm text-on-surface-variant font-medium">{msg || 'Email verified successfully!'}</span>
+              <Link
+                to={user ? '/dashboard' : '/login'}
+                className="w-full text-center py-3 bg-primary-container hover:bg-primary text-on-primary font-semibold rounded-lg transition-colors text-sm shadow-sm"
+              >
+                {user ? 'Go to Dashboard' : 'Sign In Now'}
+              </Link>
+            </div>
+          )}
+
+          {status === 'error' && (
+            <div className="flex flex-col items-center justify-center py-8 gap-6 text-center">
+              <div className="w-16 h-16 rounded-full bg-error/10 text-error border border-error/30 flex items-center justify-center text-3xl font-bold shadow-md shadow-error/10">
+                <span className="material-symbols-outlined text-[32px]">warning</span>
+              </div>
+              <span className="font-sans text-sm text-error font-medium">{msg}</span>
+              <button
+                onClick={() => setStatus('idle')}
+                className="w-full py-3 bg-surface-container-high border border-border-muted text-on-surface hover:bg-surface-container-highest font-semibold rounded-lg transition-colors text-sm shadow-sm"
+              >
+                Try Again
+              </button>
+            </div>
+          )}
+
+          {status === 'idle' && !token && (
+            <form onSubmit={handleManualSubmit} className="space-y-4">
+              <div className="p-4 rounded-xl border bg-primary-container/10 border-primary-container/20 text-on-surface text-sm font-medium">
+                Enter the verification token received in your registration log to verify your email manually.
+              </div>
+              <div className="space-y-2">
+                <label className="font-sans text-sm font-semibold text-on-surface" htmlFor="verify-token">
+                  Verification Token
+                </label>
+                <input
+                  id="verify-token"
+                  type="text"
+                  placeholder="Paste token from console log"
+                  className="w-full px-4 py-3 rounded-lg border border-border-muted bg-surface-container-lowest focus:ring-4 focus:ring-primary-container/15 focus:border-primary-container outline-none transition-all duration-200 text-on-surface text-sm"
+                  value={manualToken}
+                  onChange={(e) => setManualToken(e.target.value)}
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full py-3.5 bg-primary-container hover:bg-primary text-on-primary font-sans text-sm md:text-base font-semibold rounded-lg transition-all duration-300 shadow-sm hover:shadow-md"
+              >
+                Verify Account
+              </button>
+            </form>
+          )}
+
+          <footer className="mt-8 text-center">
+            <Link
+              to={user ? '/dashboard' : '/login'}
+              className="font-sans text-sm font-semibold text-text-muted hover:text-on-surface transition-colors"
+            >
+              {user ? '← Back to Dashboard' : '← Back to Sign In'}
             </Link>
-          </div>
-        )}
-
-        {status === 'error' && (
-          <div style={styles.stateContainer}>
-            <div style={styles.errorBadge}>!</div>
-            <span style={styles.errorText}>{msg}</span>
-            <button onClick={() => setStatus('idle')} className="btn btn-secondary" style={styles.actionBtn}>
-              Try Again
-            </button>
-          </div>
-        )}
-
-        {status === 'idle' && !token && (
-          <form onSubmit={handleManualSubmit} style={styles.form}>
-            <div className="alert alert-info" style={{ marginBottom: '16px' }}>
-              <span>Enter the verification token received in your registration log to verify your email manually.</span>
-            </div>
-            <div className="form-group">
-              <label className="form-label">Verification Token</label>
-              <input
-                type="text"
-                className="form-input"
-                placeholder="Paste token from backend console"
-                value={manualToken}
-                onChange={(e) => setManualToken(e.target.value)}
-                required
-              />
-            </div>
-            <button type="submit" className="btn btn-primary" style={styles.submitBtn}>
-              Verify Account
-            </button>
-          </form>
-        )}
-
-        <div style={styles.footerLinkRow}>
-          <Link to={user ? '/dashboard' : '/login'} style={styles.backLink}>
-            {user ? '← Back to Dashboard' : '← Back to Sign In'}
-          </Link>
+          </footer>
         </div>
       </div>
-    </div>
+    </AuthLayout>
   );
 };
 
-const styles = {
-  container: {
-    width: '100vw',
-    height: '100vh',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'var(--bg-app)',
-    padding: '16px',
-  },
-  authCard: {
-    width: '420px',
-    maxWidth: '100%',
-    padding: '36px',
-    borderRadius: 'var(--radius-xl)',
-    border: '1px solid var(--glass-border)',
-    boxShadow: 'var(--shadow-xl)',
-  },
-  cardHeader: {
-    textAlign: 'center' as const,
-    marginBottom: '28px',
-    display: 'flex',
-    flexDirection: 'column' as const,
-    alignItems: 'center',
-  },
-  logoLink: {
-    textDecoration: 'none',
-    marginBottom: '16px',
-  },
-  logoText: {
-    fontSize: '24px',
-    fontWeight: '700',
-    color: 'var(--text-primary)',
-    letterSpacing: '-0.02em',
-  },
-  title: {
-    fontSize: '22px',
-    fontWeight: '600',
-    color: 'var(--text-primary)',
-    marginBottom: '6px',
-  },
-  subtitle: {
-    fontSize: '14px',
-    color: 'var(--text-secondary)',
-  },
-  stateContainer: {
-    display: 'flex',
-    flexDirection: 'column' as const,
-    alignItems: 'center',
-    gap: '16px',
-    padding: '24px 0',
-    textAlign: 'center' as const,
-  },
-  spinner: {
-    width: '40px',
-    height: '40px',
-    borderRadius: '50%',
-    border: '3px solid var(--border)',
-    borderTopColor: 'var(--primary)',
-    animation: 'spin 1s linear infinite',
-  },
-  stateText: {
-    fontSize: '15px',
-    color: 'var(--text-secondary)',
-  },
-  successBadge: {
-    width: '56px',
-    height: '56px',
-    borderRadius: '50%',
-    backgroundColor: 'rgba(34, 197, 94, 0.1)',
-    color: '#22c55e',
-    fontSize: '28px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontWeight: 'bold',
-    border: '1px solid rgba(34, 197, 94, 0.3)',
-    boxShadow: '0 0 16px rgba(34, 197, 94, 0.2)',
-  },
-  successText: {
-    fontSize: '15px',
-    color: 'var(--text-primary)',
-    fontWeight: '500',
-  },
-  errorBadge: {
-    width: '56px',
-    height: '56px',
-    borderRadius: '50%',
-    backgroundColor: 'rgba(239, 68, 68, 0.1)',
-    color: '#ef4444',
-    fontSize: '28px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontWeight: 'bold',
-    border: '1px solid rgba(239, 68, 68, 0.3)',
-    boxShadow: '0 0 16px rgba(239, 68, 68, 0.2)',
-  },
-  errorText: {
-    fontSize: '15px',
-    color: 'var(--text-primary)',
-    fontWeight: '500',
-  },
-  actionBtn: {
-    width: '100%',
-    padding: '10px',
-    marginTop: '12px',
-    textDecoration: 'none',
-    textAlign: 'center' as const,
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column' as const,
-    gap: '16px',
-  },
-  submitBtn: {
-    width: '100%',
-    padding: '12px',
-  },
-  footerLinkRow: {
-    marginTop: '24px',
-    display: 'flex',
-    justifyContent: 'center',
-    fontSize: '14px',
-  },
-  backLink: {
-    color: 'var(--text-secondary)',
-    textDecoration: 'none',
-    fontWeight: '500',
-  },
-};
 export default VerifyEmail;

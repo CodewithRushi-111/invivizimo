@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useAuth } from '../auth/AuthProvider';
 import { tokenStore } from '../auth/tokenStore';
 import { env } from '../lib/env';
+import { AuthLayout } from '../components/AuthLayout';
 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -21,6 +22,7 @@ export const Login: React.FC = () => {
   const location = useLocation();
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const redirectPath = (location.state as any)?.from?.pathname || '/dashboard';
 
@@ -54,146 +56,109 @@ export const Login: React.FC = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <div className="card glass-panel" style={styles.authCard}>
-        <div style={styles.cardHeader}>
-          <Link to="/" style={styles.logoLink}>
-            <span style={styles.logoText}>Invivizimo</span>
-          </Link>
-          <h2 style={styles.title}>Sign In</h2>
-          <p style={styles.subtitle}>Enter credentials to access your invoices</p>
-        </div>
-
-        {errorMsg && (
-          <div className="alert alert-error" style={{ marginBottom: '16px' }}>
-            <span>⚠️ {errorMsg}</span>
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit(onSubmit)} style={styles.form}>
-          <div className="form-group">
-            <label className="form-label">Email Address</label>
-            <input
-              type="email"
-              className={`form-input ${errors.email ? 'is-invalid' : ''}`}
-              placeholder="name@example.com"
-              {...register('email')}
-            />
-            {errors.email && <span className="error-text">{errors.email.message}</span>}
-          </div>
-
-          <div className="form-group" style={{ marginBottom: '8px' }}>
-            <div style={styles.labelRow}>
-              <label className="form-label">Password</label>
-              <Link to="/forgot-password" style={styles.forgotLink}>
-                Forgot?
-              </Link>
+    <AuthLayout>
+      <div className="w-full max-w-[420px]">
+        <header className="mb-10 text-center lg:text-left">
+          {/* Mobile branding logo */}
+          <div className="lg:hidden mb-6 flex items-center justify-center gap-2">
+            <div className="bg-white px-3 py-1.5 rounded-lg flex items-center justify-center shadow-sm border border-border-muted">
+              <img src="/logo.png" alt="Invoizmo" className="h-6 object-contain" />
             </div>
-            <input
-              type="password"
-              className={`form-input ${errors.password ? 'is-invalid' : ''}`}
-              placeholder="••••••••"
-              {...register('password')}
-            />
-            {errors.password && <span className="error-text">{errors.password.message}</span>}
+            <span className="font-display text-xl font-bold">Invoizmo</span>
           </div>
+          <h2 className="font-display text-2xl md:text-3xl font-extrabold text-on-surface mb-2 tracking-tight">Sign in to Invoizmo</h2>
+          <p className="font-sans text-sm md:text-base text-on-surface-variant">Welcome back! Please enter your details.</p>
+        </header>
 
-          <button type="submit" className="btn btn-primary" style={styles.submitBtn} disabled={isLoading}>
-            {isLoading ? 'Verifying...' : 'Sign In'}
-          </button>
-        </form>
+        <div className="space-y-6">
+          {errorMsg && (
+            <div className="p-4 rounded-xl border bg-error-container/10 border-error/20 text-error flex items-start gap-2.5 text-sm font-medium">
+              <span className="material-symbols-outlined text-[18px]">warning</span>
+              <span>{errorMsg}</span>
+            </div>
+          )}
 
-        <div style={styles.footerLinkRow}>
-          <span>Don't have an account?</span>
-          <Link to="/register" style={styles.signupLink}>
-            Sign Up
-          </Link>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <div className="space-y-2">
+              <label className="font-sans text-sm font-semibold text-on-surface" htmlFor="login-email">
+                Email Address
+              </label>
+              <input
+                id="login-email"
+                type="email"
+                placeholder="name@company.com"
+                className={`w-full px-4 py-3 rounded-lg border bg-surface-container-lowest focus:ring-4 focus:ring-primary-container/15 focus:border-primary-container outline-none transition-all duration-200 text-on-surface text-sm ${
+                  errors.email ? 'border-error focus:border-error focus:ring-error/15' : 'border-border-muted'
+                }`}
+                {...register('email')}
+              />
+              {errors.email && (
+                <p className="text-xs text-error font-medium flex items-center gap-1">
+                  <span className="material-symbols-outlined text-[14px]">error</span>
+                  {errors.email.message}
+                </p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <label className="font-sans text-sm font-semibold text-on-surface" htmlFor="login-password">
+                  Password
+                </label>
+                <Link
+                  to="/forgot-password"
+                  className="font-sans text-xs md:text-sm font-semibold text-primary hover:text-primary-hover transition-colors"
+                >
+                  Forgot password?
+                </Link>
+              </div>
+              <div className="relative">
+                <input
+                  id="login-password"
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="••••••••"
+                  className={`w-full px-4 py-3 rounded-lg border bg-surface-container-lowest focus:ring-4 focus:ring-primary-container/15 focus:border-primary-container outline-none transition-all duration-200 text-on-surface text-sm ${
+                    errors.password ? 'border-error focus:border-error focus:ring-error/15' : 'border-border-muted'
+                  }`}
+                  {...register('password')}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-on-surface transition-colors"
+                >
+                  <span className="material-symbols-outlined text-[20px]">
+                    {showPassword ? 'visibility_off' : 'visibility'}
+                  </span>
+                </button>
+              </div>
+              {errors.password && (
+                <p className="text-xs text-error font-medium flex items-center gap-1">
+                  <span className="material-symbols-outlined text-[14px]">error</span>
+                  {errors.password.message}
+                </p>
+              )}
+            </div>
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full py-3.5 bg-primary-container hover:bg-primary text-on-primary font-sans text-sm md:text-base font-semibold rounded-lg transition-all duration-300 shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isLoading ? 'Signing in...' : 'Sign in to Invoizmo'}
+            </button>
+          </form>
+
+          <footer className="mt-8 text-center">
+            <p className="font-sans text-sm text-on-surface-variant">
+              Don't have an account?{' '}
+              <Link to="/register" className="font-semibold text-primary hover:underline underline-offset-4">
+                Create an account
+              </Link>
+            </p>
+          </footer>
         </div>
       </div>
-    </div>
+    </AuthLayout>
   );
 };
-
-const styles = {
-  container: {
-    width: '100vw',
-    height: '100vh',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'var(--bg-app)',
-    padding: '16px',
-  },
-  authCard: {
-    width: '420px',
-    maxWidth: '100%',
-    padding: '36px',
-    borderRadius: 'var(--radius-xl)',
-    border: '1px solid var(--glass-border)',
-    boxShadow: 'var(--shadow-xl)',
-  },
-  cardHeader: {
-    textAlign: 'center' as const,
-    marginBottom: '28px',
-    display: 'flex',
-    flexDirection: 'column' as const,
-    alignItems: 'center',
-  },
-  logoLink: {
-    textDecoration: 'none',
-    marginBottom: '16px',
-  },
-  logoText: {
-    fontSize: '24px',
-    fontWeight: '700',
-    color: 'var(--text-primary)',
-    letterSpacing: '-0.02em',
-  },
-  title: {
-    fontSize: '22px',
-    fontWeight: '600',
-    color: 'var(--text-primary)',
-    marginBottom: '6px',
-  },
-  subtitle: {
-    fontSize: '14px',
-    color: 'var(--text-secondary)',
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column' as const,
-    gap: '20px',
-  },
-  labelRow: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-  },
-  forgotLink: {
-    fontSize: '13px',
-    color: 'var(--primary)',
-    textDecoration: 'none',
-    fontWeight: '500',
-  },
-  submitBtn: {
-    width: '100%',
-    padding: '12px',
-    marginTop: '8px',
-  },
-  footerLinkRow: {
-    marginTop: '24px',
-    display: 'flex',
-    justifyContent: 'center',
-    gap: '8px',
-    fontSize: '14px',
-    color: 'var(--text-secondary)',
-  },
-  signupLink: {
-    color: 'var(--primary)',
-    textDecoration: 'none',
-    fontWeight: '600',
-  },
-};
-
-export default Login;

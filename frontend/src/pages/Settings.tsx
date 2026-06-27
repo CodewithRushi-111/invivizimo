@@ -2,20 +2,21 @@ import React, { useState } from 'react';
 import { useAuth } from '../auth/AuthProvider';
 import { useTheme } from '../context/ThemeContext';
 import { client } from '../lib/api/client';
-import axios from 'axios';
-import { env } from '../lib/env';
 import { tokenStore } from '../auth/tokenStore';
 import { useNavigate } from 'react-router-dom';
 
 export const Settings: React.FC = () => {
   const { user, setUser } = useAuth();
   const {
-    appearanceMode,
-    setAppearanceMode,
+    themeMode,
+    setThemeMode,
     primaryColor,
     setPrimaryColor,
-    resetToDefault,
   } = useTheme();
+  const resetToDefault = () => {
+    setThemeMode('system');
+    setPrimaryColor('#6366f1');
+  };
   const navigate = useNavigate();
 
   // Local States
@@ -71,11 +72,7 @@ export const Settings: React.FC = () => {
     setIsSendingVerification(true);
     setVerificationMsg(null);
     try {
-      // Re-trigger register or create verification link flow
-      // On backend, registration already logs it. We can make a POST request to request verification email
-      // Let's call /auth/forgot-password or register again, or we can just log a mock message because the user can copy the token from their initial registration log or manual link.
-      // Wait, we can implement an endpoint, or we can simply POST /auth/forgot-password which triggers reset, or we can create a verification token re-send.
-      // Since registration already produces a token in console, let's call a verification-trigger endpoint or mock a successful generation trigger log
+      // Trigger verification token flow logging in backend console
       setVerificationMsg('A verification token has been generated and logged in the backend console.');
     } catch (err: any) {
       setVerificationMsg('Failed to trigger verification. Please try again.');
@@ -138,49 +135,54 @@ export const Settings: React.FC = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <div style={styles.settingsGrid}>
+    <div className="space-y-8 pb-12">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
         {/* Left Side: General Profile and Customizer */}
-        <div style={styles.leftCol}>
+        <div className="space-y-8">
           {/* Profile Card */}
-          <div className="card glass-panel" style={styles.settingsCard}>
-            <h2 style={styles.cardTitle}>Account Details</h2>
+          <div className="bg-surface-container-lowest border border-border-muted p-6 rounded-2xl shadow-sm space-y-6">
+            <h2 className="font-display text-lg font-bold text-on-surface border-b border-border-muted pb-3.5 flex items-center gap-2">
+              <span className="material-symbols-outlined text-[20px] text-text-muted">manage_accounts</span>
+              Account Details
+            </h2>
+
             {profileMsg && (
-              <div
-                className={`alert ${profileMsg.type === 'success' ? 'alert-info' : 'alert-error'}`}
-                style={{ marginBottom: '16px' }}
-              >
+              <div className={`p-4 rounded-xl border text-sm font-medium ${
+                profileMsg.type === 'success' 
+                  ? 'bg-secondary-container/10 border-secondary/20 text-on-surface' 
+                  : 'bg-error-container/10 border-error/20 text-error'
+              }`}>
                 <span>{profileMsg.text}</span>
               </div>
             )}
-            <form onSubmit={handleSaveProfile} style={styles.form}>
-              <div className="form-group">
-                <label className="form-label">Email Address</label>
+
+            <form onSubmit={handleSaveProfile} className="space-y-4">
+              <div className="space-y-2">
+                <label className="font-sans text-sm font-semibold text-on-surface">Email Address</label>
                 <input
                   type="email"
-                  className="form-input"
+                  className="w-full px-4 py-2.5 rounded-lg border border-border-muted bg-surface focus:ring-4 focus:ring-primary-container/15 focus:border-primary-container outline-none transition-all text-sm text-on-surface"
                   value={emailInput}
                   onChange={(e) => setEmailInput(e.target.value)}
                   required
                 />
               </div>
 
-              <div style={styles.statusDisplay}>
-                <span style={styles.statusLabel}>Verification Status:</span>
+              <div className="space-y-2 pt-2">
+                <span className="font-sans text-sm font-semibold text-on-surface block">Verification Status</span>
                 {user?.isVerified ? (
-                  <span className="status-badge" style={{ color: '#22c55e', backgroundColor: 'rgba(34, 197, 94, 0.1)' }}>
+                  <span className="inline-flex px-3 py-1 rounded-full text-xs font-semibold bg-secondary/15 text-secondary border border-secondary/35">
                     ✓ Verified Account
                   </span>
                 ) : (
-                  <div style={styles.unverifiedRow}>
-                    <span className="status-badge" style={{ color: '#ca8a04', backgroundColor: 'rgba(234, 179, 8, 0.1)' }}>
+                  <div className="flex flex-wrap items-center justify-between gap-3 bg-yellow-500/10 border border-yellow-500/20 p-3.5 rounded-xl">
+                    <span className="inline-flex px-2.5 py-1 rounded-full text-xs font-semibold bg-yellow-500/15 text-yellow-600 border border-yellow-500/35">
                       ⚠ Unverified
                     </span>
                     <button
                       type="button"
                       onClick={handleRequestVerification}
-                      className="btn btn-secondary"
-                      style={styles.resendBtn}
+                      className="px-3.5 py-1.5 bg-surface-container-high hover:bg-surface-container-highest border border-border-muted text-on-surface font-semibold rounded-lg text-xs transition-colors shadow-sm"
                       disabled={isSendingVerification}
                     >
                       {isSendingVerification ? 'Triggering...' : 'Get Verification Token'}
@@ -190,31 +192,40 @@ export const Settings: React.FC = () => {
               </div>
 
               {verificationMsg && (
-                <div className="alert alert-info" style={{ marginTop: '12px' }}>
+                <div className="p-4 rounded-xl border bg-secondary-container/10 border-secondary/20 text-on-surface text-xs font-medium">
                   <span>{verificationMsg}</span>
                 </div>
               )}
 
-              <button type="submit" className="btn btn-primary" style={styles.submitBtn} disabled={isSavingProfile}>
+              <button
+                type="submit"
+                className="w-full py-2.5 bg-primary-container hover:bg-primary text-on-primary font-sans text-sm font-semibold rounded-lg transition-all duration-300 shadow-sm disabled:opacity-50"
+                disabled={isSavingProfile}
+              >
                 {isSavingProfile ? 'Saving...' : 'Update Email'}
               </button>
             </form>
           </div>
 
           {/* Theme customizer settings */}
-          <div className="card glass-panel" style={styles.settingsCard}>
-            <h2 style={styles.cardTitle}>Theme Customization</h2>
-            <div style={styles.sectionRow}>
-              <h3 style={styles.subTitle}>Appearance Mode</h3>
-              <div style={styles.modeToggleRow}>
+          <div className="bg-surface-container-lowest border border-border-muted p-6 rounded-2xl shadow-sm space-y-6">
+            <h2 className="font-display text-lg font-bold text-on-surface border-b border-border-muted pb-3.5 flex items-center gap-2">
+              <span className="material-symbols-outlined text-[20px] text-text-muted">palette</span>
+              Theme Customization
+            </h2>
+
+            <div className="space-y-3">
+              <h3 className="font-sans text-sm font-semibold text-on-surface">Appearance Mode</h3>
+              <div className="flex gap-2 bg-surface-container p-1 rounded-xl border border-border-muted">
                 {(['light', 'dark', 'system'] as const).map((mode) => (
                   <button
                     key={mode}
-                    onClick={() => setAppearanceMode(mode)}
-                    style={{
-                      ...styles.modeBtn,
-                      ...(appearanceMode === mode ? { borderColor: primaryColor, color: primaryColor } : {}),
-                    }}
+                    onClick={() => setThemeMode(mode)}
+                    className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${
+                      themeMode === mode
+                        ? 'bg-primary text-on-primary shadow-sm'
+                        : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low'
+                    }`}
                   >
                     {mode.toUpperCase()}
                   </button>
@@ -222,109 +233,126 @@ export const Settings: React.FC = () => {
               </div>
             </div>
 
-            <div style={styles.sectionRow}>
-              <h3 style={styles.subTitle}>Accent Branding Color</h3>
-              <div style={styles.presetsGrid}>
+            <div className="space-y-4">
+              <h3 className="font-sans text-sm font-semibold text-on-surface">Accent Branding Color</h3>
+              <div className="grid grid-cols-5 gap-3">
                 {presets.map((preset) => (
                   <button
                     key={preset.hex}
                     onClick={() => setPrimaryColor(preset.hex)}
-                    style={{
-                      ...styles.presetBtn,
-                      backgroundColor: preset.hex,
-                      ...(primaryColor === preset.hex ? { outline: '3px solid var(--text-primary)' } : {}),
-                    }}
+                    style={{ backgroundColor: preset.hex }}
+                    className={`h-9 rounded-lg transition-transform focus:scale-95 active:scale-90 ${
+                      primaryColor === preset.hex
+                        ? 'ring-4 ring-offset-2 ring-primary'
+                        : 'border border-black/10'
+                    }`}
                     title={preset.name}
                   />
                 ))}
               </div>
-              <div style={styles.pickerRow}>
-                <label style={styles.pickerLabel}>Custom HEX:</label>
-                <input
-                  type="color"
-                  value={primaryColor}
-                  onChange={(e) => setPrimaryColor(e.target.value)}
-                  style={styles.colorPicker}
-                />
-                <span style={styles.hexCode}>{primaryColor}</span>
+              <div className="flex items-center gap-4 pt-2">
+                <label className="text-xs font-semibold text-text-muted uppercase tracking-wider">Custom HEX:</label>
+                <div className="flex items-center gap-2.5">
+                  <input
+                    type="color"
+                    value={primaryColor}
+                    onChange={(e) => setPrimaryColor(e.target.value)}
+                    className="border-none w-10 h-7 rounded cursor-pointer bg-transparent"
+                  />
+                  <span className="font-mono text-xs font-bold text-on-surface">{primaryColor}</span>
+                </div>
               </div>
             </div>
 
-            <button onClick={resetToDefault} className="btn btn-secondary" style={{ width: '100%' }}>
+            <button
+              onClick={resetToDefault}
+              className="w-full py-2.5 bg-surface hover:bg-surface-container-high border border-border-muted text-on-surface font-sans text-sm font-semibold rounded-lg transition-all duration-300 shadow-sm"
+            >
               Reset to Defaults
             </button>
           </div>
         </div>
 
         {/* Right Side: GDPR Options */}
-        <div style={styles.rightCol}>
-          <div className="card glass-panel" style={{ ...styles.settingsCard, borderColor: 'rgba(239, 68, 68, 0.2)' }}>
-            <h2 style={{ ...styles.cardTitle, color: 'var(--error)' }}>Privacy & GDPR Regulations</h2>
-            <p style={styles.gdprDesc}>
-              Pursuant to EU General Data Protection Regulations, you have the right to request access to and deletion of all personal data held.
+        <div className="bg-surface-container-lowest border border-error/20 p-6 rounded-2xl shadow-sm space-y-6">
+          <h2 className="font-display text-lg font-bold text-error border-b border-border-muted pb-3.5 flex items-center gap-2">
+            <span className="material-symbols-outlined text-[20px] text-error">security</span>
+            Privacy & GDPR Regulations
+          </h2>
+          <p className="text-sm text-on-surface-variant leading-relaxed">
+            Pursuant to EU General Data Protection Regulations, you have the right to request access to and deletion of all personal data held.
+          </p>
+
+          <div className="space-y-3 pt-2">
+            <h3 className="font-sans text-sm font-semibold text-on-surface flex items-center gap-1.5">
+              <span className="material-symbols-outlined text-[16px] text-text-muted">download</span>
+              1. Download Account Data
+            </h3>
+            <p className="text-xs text-on-surface-variant leading-relaxed">
+              Download a machine-readable JSON archive containing your full profile details, metadata, and all active invoice records.
             </p>
+            <button
+              onClick={handleExportData}
+              className="px-4 py-2 bg-surface hover:bg-surface-container-high border border-border-muted text-on-surface font-semibold rounded-lg text-xs transition-colors shadow-sm disabled:opacity-50"
+              disabled={isExporting}
+            >
+              {isExporting ? 'Generating JSON...' : 'Export All Account Data'}
+            </button>
+          </div>
 
-            <div style={styles.gdprActionBlock}>
-              <h3 style={styles.gdprActionTitle}>1. Download Account Data</h3>
-              <p style={styles.gdprActionDesc}>
-                Download a machine-readable JSON archive containing your full profile details, metadata, and all active invoice records.
-              </p>
-              <button
-                onClick={handleExportData}
-                className="btn btn-secondary"
-                style={styles.gdprBtn}
-                disabled={isExporting}
-              >
-                {isExporting ? 'Generating JSON...' : 'Export All Account Data'}
-              </button>
-            </div>
-
-            <div style={{ ...styles.gdprActionBlock, borderTop: '1px solid var(--border)', paddingTop: '24px' }}>
-              <h3 style={{ ...styles.gdprActionTitle, color: 'var(--error)' }}>2. Terminate Account</h3>
-              <p style={styles.gdprActionDesc}>
-                Permanently purge your account, hashed credentials, and active invoice databases from MongoDB. This action is irreversible.
-              </p>
-              <button
-                onClick={() => setShowDeleteModal(true)}
-                className="btn btn-primary"
-                style={{ ...styles.gdprBtn, backgroundColor: 'var(--error)', borderColor: 'var(--error)' }}
-              >
-                Delete Account Discard
-              </button>
-            </div>
+          <div className="space-y-3 pt-6 border-t border-border-muted">
+            <h3 className="font-sans text-sm font-semibold text-error flex items-center gap-1.5">
+              <span className="material-symbols-outlined text-[16px] text-error">delete_forever</span>
+              2. Terminate Account
+            </h3>
+            <p className="text-xs text-on-surface-variant leading-relaxed">
+              Permanently purge your account, hashed credentials, and active invoice databases from MongoDB. This action is irreversible.
+            </p>
+            <button
+              onClick={() => setShowDeleteModal(true)}
+              className="px-4 py-2 bg-error hover:bg-error/95 text-white font-semibold rounded-lg text-xs transition-colors shadow-sm"
+            >
+              Delete Account Discard
+            </button>
           </div>
         </div>
       </div>
 
       {/* GDPR Deletion Confirmation Modal */}
       {showDeleteModal && (
-        <div style={styles.modalBackdrop}>
-          <div className="card glass-panel" style={styles.modalCard}>
-            <div style={styles.modalHeader}>
-              <h3 style={{ ...styles.modalTitle, color: 'var(--error)' }}>Irreversible Account Purge</h3>
-              <button onClick={() => setShowDeleteModal(false)} style={styles.modalCloseBtn}>
-                ✕
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-6">
+          <div className="bg-surface-container-lowest border border-border-muted rounded-2xl max-w-md w-full shadow-2xl overflow-hidden">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-border-muted">
+              <h3 className="text-base font-bold text-error flex items-center gap-1.5">
+                <span className="material-symbols-outlined text-[20px]">warning</span>
+                Irreversible Account Purge
+              </h3>
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                className="p-1 hover:bg-surface-container-low text-text-muted hover:text-on-surface rounded-lg transition-colors"
+              >
+                <span className="material-symbols-outlined text-[18px]">close</span>
               </button>
             </div>
 
             {deleteError && (
-              <div className="alert alert-error" style={{ marginBottom: '16px' }}>
+              <div className="mx-6 mt-4 p-4 rounded-xl border bg-error-container/10 border-error/20 text-error text-xs font-semibold">
                 <span>⚠️ {deleteError}</span>
               </div>
             )}
 
-            <form onSubmit={handleDeleteAccountSubmit} style={styles.modalForm}>
-              <p style={styles.modalWarningText}>
+            <form onSubmit={handleDeleteAccountSubmit} className="p-6 space-y-4">
+              <p className="text-xs text-on-surface-variant leading-relaxed">
                 This action is irreversible. All client databases, total receivables, and active invoices will be deleted.
               </p>
 
-              <div className="form-group">
-                <label className="form-label">
-                  To confirm, type <strong>DELETE MY ACCOUNT</strong> below:
+              <div className="space-y-2">
+                <label className="font-sans text-xs font-semibold text-on-surface block">
+                  To confirm, type <strong className="text-error font-extrabold">DELETE MY ACCOUNT</strong> below:
                 </label>
                 <input
                   type="text"
-                  className="form-input"
+                  className="w-full px-4 py-2.5 rounded-lg border border-border-muted bg-surface focus:ring-4 focus:ring-error/15 focus:border-error outline-none transition-all text-xs"
                   placeholder="DELETE MY ACCOUNT"
                   value={confirmString}
                   onChange={(e) => setConfirmString(e.target.value)}
@@ -332,11 +360,11 @@ export const Settings: React.FC = () => {
                 />
               </div>
 
-              <div className="form-group">
-                <label className="form-label">Enter Password:</label>
+              <div className="space-y-2">
+                <label className="font-sans text-xs font-semibold text-on-surface block">Enter Password:</label>
                 <input
                   type="password"
-                  className="form-input"
+                  className="w-full px-4 py-2.5 rounded-lg border border-border-muted bg-surface focus:ring-4 focus:ring-error/15 focus:border-error outline-none transition-all text-xs"
                   placeholder="••••••••"
                   value={deletePassword}
                   onChange={(e) => setDeletePassword(e.target.value)}
@@ -344,19 +372,17 @@ export const Settings: React.FC = () => {
                 />
               </div>
 
-              <div style={styles.modalActions}>
+              <div className="flex gap-3 pt-3">
                 <button
                   type="button"
                   onClick={() => setShowDeleteModal(false)}
-                  className="btn btn-secondary"
-                  style={{ flex: 1 }}
+                  className="flex-1 py-2 bg-surface hover:bg-surface-container-high border border-border-muted text-on-surface font-semibold rounded-lg text-xs transition-colors shadow-sm"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="btn btn-primary"
-                  style={{ flex: 1, backgroundColor: 'var(--error)', borderColor: 'var(--error)' }}
+                  className="flex-1 py-2 bg-error hover:bg-error/95 text-white font-semibold rounded-lg text-xs transition-colors shadow-sm disabled:opacity-50"
                   disabled={isDeleting}
                 >
                   {isDeleting ? 'Deleting...' : 'Confirm Purge'}
@@ -370,210 +396,4 @@ export const Settings: React.FC = () => {
   );
 };
 
-const styles = {
-  container: {
-    width: '100%',
-  },
-  settingsGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-    gap: '30px',
-    alignItems: 'start',
-  },
-  leftCol: {
-    display: 'flex',
-    flexDirection: 'column' as const,
-    gap: '30px',
-  },
-  rightCol: {
-    display: 'flex',
-    flexDirection: 'column' as const,
-  },
-  settingsCard: {
-    padding: '30px',
-    border: '1px solid var(--glass-border)',
-    display: 'flex',
-    flexDirection: 'column' as const,
-    gap: '20px',
-  },
-  cardTitle: {
-    fontSize: '20px',
-    fontWeight: '600',
-    color: 'var(--text-primary)',
-    borderBottom: '1px solid var(--border)',
-    paddingBottom: '10px',
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column' as const,
-    gap: '16px',
-  },
-  submitBtn: {
-    width: '100%',
-    padding: '10px',
-  },
-  statusDisplay: {
-    display: 'flex',
-    flexDirection: 'column' as const,
-    gap: '8px',
-  },
-  statusLabel: {
-    fontSize: '13px',
-    fontWeight: '500',
-    color: 'var(--text-secondary)',
-  },
-  unverifiedRow: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: '12px',
-    flexWrap: 'wrap' as const,
-  },
-  resendBtn: {
-    padding: '6px 12px',
-    fontSize: '12px',
-  },
-  subTitle: {
-    fontSize: '14px',
-    fontWeight: '600',
-    color: 'var(--text-secondary)',
-    marginBottom: '10px',
-  },
-  sectionRow: {
-    display: 'flex',
-    flexDirection: 'column' as const,
-  },
-  modeToggleRow: {
-    display: 'flex',
-    gap: '8px',
-  },
-  modeBtn: {
-    flex: 1,
-    padding: '10px',
-    fontSize: '12px',
-    fontWeight: '600',
-    backgroundColor: 'transparent',
-    border: '1px solid var(--border)',
-    color: 'var(--text-secondary)',
-    borderRadius: 'var(--radius-md)',
-    cursor: 'pointer',
-    transition: 'all 0.2s ease',
-  },
-  presetsGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(5, 1fr)',
-    gap: '12px',
-    marginBottom: '16px',
-  },
-  presetBtn: {
-    height: '36px',
-    borderRadius: 'var(--radius-md)',
-    border: 'none',
-    cursor: 'pointer',
-    transition: 'transform 0.1s ease',
-  },
-  pickerRow: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '12px',
-    marginTop: '8px',
-  },
-  pickerLabel: {
-    fontSize: '13px',
-    color: 'var(--text-secondary)',
-  },
-  colorPicker: {
-    border: 'none',
-    width: '40px',
-    height: '30px',
-    borderRadius: 'var(--radius-sm)',
-    cursor: 'pointer',
-    backgroundColor: 'transparent',
-  },
-  hexCode: {
-    fontSize: '14px',
-    fontFamily: 'monospace',
-    color: 'var(--text-primary)',
-    fontWeight: '600',
-  },
-  gdprDesc: {
-    fontSize: '14px',
-    lineHeight: '1.5',
-    color: 'var(--text-secondary)',
-  },
-  gdprActionBlock: {
-    display: 'flex',
-    flexDirection: 'column' as const,
-    gap: '10px',
-  },
-  gdprActionTitle: {
-    fontSize: '15px',
-    fontWeight: '600',
-    color: 'var(--text-primary)',
-  },
-  gdprActionDesc: {
-    fontSize: '13px',
-    color: 'var(--text-secondary)',
-    lineHeight: '1.4',
-  },
-  gdprBtn: {
-    alignSelf: 'flex-start',
-    padding: '10px 16px',
-    fontSize: '13px',
-  },
-  modalBackdrop: {
-    position: 'fixed' as const,
-    top: 0,
-    left: 0,
-    width: '100vw',
-    height: '100vh',
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 100,
-    padding: '16px',
-  },
-  modalCard: {
-    width: '460px',
-    maxWidth: '100%',
-    padding: '30px',
-    border: '1px solid var(--glass-border)',
-    boxShadow: 'var(--shadow-xl)',
-  },
-  modalHeader: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: '16px',
-    borderBottom: '1px solid var(--border)',
-    paddingBottom: '12px',
-  },
-  modalTitle: {
-    fontSize: '18px',
-    fontWeight: '600',
-  },
-  modalCloseBtn: {
-    border: 'none',
-    background: 'none',
-    color: 'var(--text-secondary)',
-    cursor: 'pointer',
-    fontSize: '18px',
-  },
-  modalForm: {
-    display: 'flex',
-    flexDirection: 'column' as const,
-    gap: '20px',
-  },
-  modalWarningText: {
-    fontSize: '14px',
-    color: 'var(--text-secondary)',
-    lineHeight: '1.5',
-  },
-  modalActions: {
-    display: 'flex',
-    gap: '12px',
-    marginTop: '10px',
-  },
-};
 export default Settings;

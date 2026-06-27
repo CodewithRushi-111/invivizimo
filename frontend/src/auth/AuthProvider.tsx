@@ -21,27 +21,36 @@ export interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+let bootstrapPromise: Promise<void> | null = null;
+
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
   const bootstrapSession = async () => {
-    try {
-      // 1. Attempt refresh to get a new Access Token
-      const { data: refreshData } = await refreshClient.post('/auth/refresh');
-      const token = refreshData.data.accessToken;
-      tokenStore.set(token);
+    if (bootstrapPromise) return bootstrapPromise;
 
-      // 2. Fetch authenticated profile
-      const { data: meData } = await client.get('/users/me');
-      setUser(meData.data);
-    } catch (e) {
-      // No active session, wipe store
-      tokenStore.clear();
-      setUser(null);
-    } finally {
-      setLoading(false);
-    }
+    bootstrapPromise = (async () => {
+      try {
+        // 1. Attempt refresh to get a new Access Token
+        const { data: refreshData } = await refreshClient.post('/auth/refresh');
+        const token = refreshData.data.accessToken;
+        tokenStore.set(token);
+
+        // 2. Fetch authenticated profile
+        const { data: meData } = await client.get('/users/me');
+        setUser(meData.data);
+      } catch (e) {
+        // No active session, wipe store
+        tokenStore.clear();
+        setUser(null);
+      } finally {
+        setLoading(false);
+        bootstrapPromise = null;
+      }
+    })();
+
+    return bootstrapPromise;
   };
 
   const logout = async () => {

@@ -25,9 +25,8 @@ export const ThemeSettingsDemo: React.FC = () => {
       {/* Premium Header */}
       <header className="glass-panel" style={styles.header}>
         <div style={styles.headerContent}>
-          <div style={styles.logoArea}>
-            <span style={{ ...styles.logoIcon, backgroundColor: primaryColor }}>I</span>
-            <span style={styles.logoText}>Invivizimo <span style={{ color: primaryColor, fontWeight: '700' }}>Customizer</span></span>
+          <div style={{ backgroundColor: '#ffffff', padding: '6px 12px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <img src="/logo.png" alt="Invivizimo" style={{ height: '28px', maxWidth: '100%', objectFit: 'contain' }} />
           </div>
           <div style={styles.headerBadges}>
             <span className="status-badge">Theme State: {resolvedTheme}</span>

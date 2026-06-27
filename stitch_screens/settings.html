@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Settings | Invoizmo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#141b2b",
+                        "inverse-surface": "#293040",
+                        "tertiary-fixed": "#ffdad7",
+                        "tertiary-container": "#c02028",
+                        "surface-tint": "#364ae4",
+                        "inverse-primary": "#bcc2ff",
+                        "error": "#ba1a1a",
+                        "text-muted": "#737C8C",
+                        "primary-fixed-dim": "#bcc2ff",
+                        "surface-container-low": "#f1f3ff",
+                        "on-secondary-fixed": "#002113",
+                        "border-muted": "#E5E7EB",
+                        "secondary-fixed-dim": "#4edea3",
+                        "on-tertiary-container": "#ffd6d2",
+                        "surface-dim": "#d3daef",
+                        "on-surface": "#141b2b",
+                        "surface-variant": "#dce2f7",
+                        "tertiary-fixed-dim": "#ffb3ad",
+                        "secondary": "#006c49",
+                        "on-surface-variant": "#444655",
+                        "on-tertiary-fixed": "#410004",
+                        "on-secondary-fixed-variant": "#005236",
+                        "on-primary-fixed": "#000b63",
+                        "secondary-container": "#6cf8bb",
+                        "secondary-fixed": "#6ffbbe",
+                        "on-primary-container": "#dbddff",
+                        "primary-container": "#3b4fe8",
+                        "on-primary": "#ffffff",
+                        "surface-container": "#e9edff",
+                        "on-tertiary": "#ffffff",
+                        "surface-elevated": "#FFFFFF",
+                        "surface": "#f9f9ff",
+                        "surface-container-high": "#e1e8fd",
+                        "inverse-on-surface": "#edf0ff",
+                        "error-container": "#ffdad6",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#dfe0ff",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed-variant": "#122bcd",
+                        "outline-variant": "#c5c5d8",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#00714d",
+                        "surface-bright": "#f9f9ff",
+                        "primary": "#1a31d0",
+                        "tertiary": "#9b0015",
+                        "surface-container-highest": "#dce2f7",
+                        "background": "#f9f9ff",
+                        "on-tertiary-fixed-variant": "#930013",
+                        "outline": "#757687",
+                        "on-error-container": "#93000a",
+                        "bg-subtle": "#F9FAFB"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sidebar-width": "240px",
+                        "base": "8px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "margin-desktop": "32px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "body-sm": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "headline-sm": ["Plus Jakarta Sans"],
+                        "mono-label": ["JetBrains Mono"],
+                        "mono-data": ["JetBrains Mono"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                        "mono-label": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "headline-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-tab-indicator {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #1a31d0;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #E5E7EB;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-surface">
+<!-- Side Navigation -->
+<aside class="docked fixed left-0 top-0 h-screen w-sidebar-width bg-surface border-r border-border-muted flex flex-col py-base z-50">
+<div class="px-4 mb-8">
+<h1 class="text-headline-sm font-headline-sm font-bold text-on-surface tracking-tight">Invoizmo</h1>
+<p class="text-body-sm text-text-muted mt-1">Workspace: Acme Corp</p>
+</div>
+<nav class="flex-1 space-y-1">
+<!-- Nav Items based on JSON -->
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="font-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">description</span>
+<span class="font-body-md">Invoices</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">group</span>
+<span class="font-body-md">Clients</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">inventory_2</span>
+<span class="font-body-md">Products</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+<span class="font-body-md">Payments</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">analytics</span>
+<span class="font-body-md">Reports</span>
+</a>
+<!-- Active State for Settings -->
+<a class="flex items-center gap-3 px-4 py-2 text-primary border-l-2 border-primary bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="font-body-md">Settings</span>
+</a>
+</nav>
+<div class="px-4 mt-auto space-y-4">
+<button class="w-full bg-primary-container text-on-primary font-body-sm py-2 px-4 rounded-lg hover:opacity-90 transition-opacity">
+                Upgrade Plan
+            </button>
+<div class="pt-4 border-t border-border-muted space-y-1">
+<a class="flex items-center gap-3 px-0 py-2 text-on-surface-variant hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">help</span>
+<span class="font-body-md">Support</span>
+</a>
+<a class="flex items-center gap-3 px-0 py-2 text-on-surface-variant hover:text-error transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">logout</span>
+<span class="font-body-md">Sign Out</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Top Navigation -->
+<header class="docked sticky top-0 z-40 w-full ml-sidebar-width bg-surface border-b border-border-muted shadow-sm flex justify-between items-center h-16 px-margin-desktop">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-lowest border border-border-muted rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none text-body-sm transition-all" placeholder="Search settings..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="relative text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-surface-container-highest overflow-hidden border border-border-muted">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a business user in a minimal workspace with soft natural lighting and a clean white background. The subject is wearing business casual attire, reflecting a modern, approachable, and tech-savvy professional identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAU09ryBFswPa5T7VnWLUfvelQTis6Q_7VoahZTqQWAB7jvQM1AIorjkyQYIH67yatcau-rh1eKYI_Zi-xDHakZt7iOZx6rDpk7BW7U0uQhYlpgjoCK9uzMAGP6Q46q9C2Yv_fHSO1WCpa8tq2Vkf_I0tHbWEkd6ZMfb-lqkO7Owi13ZV85fUCju_8Lxi9wXzH6q1ehPt_PTxmTczsWBrjP2Yi-XxKOfIpcIUncIMjPXRE7Y5nxvn7oYyZpA2gUArny0HbyzJv77GTT"/>
+</div>
+<button class="bg-primary text-on-primary text-body-sm font-medium px-4 py-2 rounded-lg hover:opacity-90 transition-opacity">
+                + New Invoice
+            </button>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="ml-sidebar-width min-h-screen">
+<div class="max-w-container-max mx-auto p-margin-desktop grid grid-cols-12 gap-gutter">
+<!-- Page Header -->
+<div class="col-span-12 mb-4">
+<h2 class="text-headline-lg font-headline-lg text-on-surface">Account Settings</h2>
+<p class="text-body-md text-text-muted">Manage your business identity, preferences, and workspace features.</p>
+</div>
+<!-- Sub-navigation (Left) -->
+<nav class="col-span-12 md:col-span-3 flex flex-col space-y-1">
+<a class="group relative flex items-center gap-3 px-4 py-3 bg-surface-container-lowest border border-border-muted text-primary font-medium rounded-lg" href="#">
+<div class="active-tab-indicator"></div>
+<span class="material-symbols-outlined text-[20px]">person</span>
+<span class="font-body-md">Profile</span>
+</a>
+<a class="group flex items-center gap-3 px-4 py-3 hover:bg-surface-container-low text-on-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">receipt_long</span>
+<span class="font-body-md">Invoice Defaults</span>
+</a>
+<a class="group flex items-center gap-3 px-4 py-3 hover:bg-surface-container-low text-on-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">palette</span>
+<span class="font-body-md">Branding</span>
+</a>
+<a class="group flex items-center gap-3 px-4 py-3 hover:bg-surface-container-low text-on-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+<span class="font-body-md">Payments</span>
+</a>
+<a class="group flex items-center gap-3 px-4 py-3 hover:bg-surface-container-low text-on-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">groups</span>
+<span class="font-body-md">Team</span>
+</a>
+<a class="group flex items-center gap-3 px-4 py-3 hover:bg-surface-container-low text-on-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">credit_card</span>
+<span class="font-body-md">Billing</span>
+</a>
+</nav>
+<!-- Content Area (Middle) -->
+<div class="col-span-12 md:col-span-6 space-y-base">
+<!-- Business Info Card -->
+<section class="bg-surface-container-lowest border border-border-muted p-6 rounded-xl shadow-sm">
+<h3 class="text-headline-sm font-headline-sm mb-6">Business Details</h3>
+<div class="space-y-4">
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col gap-2">
+<label class="text-mono-label font-mono-label text-text-muted uppercase tracking-wider">Business Name</label>
+<input class="w-full p-2 border border-border-muted rounded-lg text-body-sm focus:ring-primary focus:border-primary outline-none" type="text" value="Acme Corp"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-mono-label font-mono-label text-text-muted uppercase tracking-wider">Registration Number</label>
+<input class="w-full p-2 border border-border-muted rounded-lg text-body-sm focus:ring-primary focus:border-primary outline-none font-mono-data" type="text" value="TAX-9902-X"/>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-mono-label font-mono-label text-text-muted uppercase tracking-wider">Business Address</label>
+<textarea class="w-full p-2 border border-border-muted rounded-lg text-body-sm focus:ring-primary focus:border-primary outline-none resize-none" rows="3">123 Innovation Drive, Silicon Valley, CA 94025, United States</textarea>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-mono-label font-mono-label text-text-muted uppercase tracking-wider">Logo</label>
+<div class="flex items-center gap-4">
+<div class="w-20 h-20 border-2 border-dashed border-border-muted rounded-lg flex items-center justify-center bg-surface hover:bg-surface-container transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-text-muted group-hover:text-primary">upload</span>
+</div>
+<div class="flex-1">
+<p class="text-body-sm font-medium">Upload company logo</p>
+<p class="text-mono-label text-text-muted">PNG, JPG up to 10MB. Recommended 512x512px.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Defaults Card -->
+<section class="bg-surface-container-lowest border border-border-muted p-6 rounded-xl shadow-sm">
+<h3 class="text-headline-sm font-headline-sm mb-6">Regional & Currency</h3>
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col gap-2">
+<label class="text-mono-label font-mono-label text-text-muted uppercase tracking-wider">Default Currency</label>
+<select class="w-full p-2 border border-border-muted rounded-lg text-body-sm focus:ring-primary focus:border-primary outline-none appearance-none bg-surface-container-lowest">
+<option>USD ($) - US Dollar</option>
+<option>EUR (€) - Euro</option>
+<option>GBP (£) - British Pound</option>
+<option>JPY (¥) - Japanese Yen</option>
+</select>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-mono-label font-mono-label text-text-muted uppercase tracking-wider">Default Tax (%)</label>
+<div class="relative">
+<input class="w-full p-2 border border-border-muted rounded-lg text-body-sm focus:ring-primary focus:border-primary outline-none font-mono-data" type="number" value="15"/>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted font-mono-label">%</span>
+</div>
+</div>
+</div>
+</section>
+<div class="flex justify-end gap-3 pt-4">
+<button class="px-6 py-2 border border-border-muted rounded-lg text-on-surface font-medium hover:bg-surface transition-colors">Discard</button>
+<button class="px-6 py-2 bg-primary text-on-primary rounded-lg font-medium hover:opacity-90 shadow-sm transition-opacity">Save Changes</button>
+</div>
+</div>
+<!-- Plans Section (Right) -->
+<div class="col-span-12 md:col-span-3 space-y-base">
+<section class="bg-on-background p-6 rounded-xl text-on-primary relative overflow-hidden">
+<!-- Subtle pattern effect -->
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#ffffff 0.5px, transparent 0.5px); background-size: 8px 8px;"></div>
+<div class="relative z-10">
+<div class="flex justify-between items-start mb-4">
+<div>
+<span class="bg-secondary text-on-primary text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full">Current Plan</span>
+<h4 class="text-headline-md font-headline-md mt-2">Invoizmo Pro</h4>
+</div>
+</div>
+<div class="mb-6">
+<span class="text-display-lg font-display-lg">$29</span>
+<span class="text-body-sm opacity-70">/ month</span>
+</div>
+<ul class="space-y-3 mb-8">
+<li class="flex items-center gap-2 text-body-sm">
+<span class="material-symbols-outlined text-secondary text-[18px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span>Unlimited Invoices</span>
+</li>
+<li class="flex items-center gap-2 text-body-sm">
+<span class="material-symbols-outlined text-secondary text-[18px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span>Custom Branding</span>
+</li>
+<li class="flex items-center gap-2 text-body-sm">
+<span class="material-symbols-outlined text-secondary text-[18px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span>Advanced Reports</span>
+</li>
+<li class="flex items-center gap-2 text-body-sm opacity-50">
+<span class="material-symbols-outlined text-[18px]">lock</span>
+<span class="line-through">Team Multi-collaboration</span>
+</li>
+</ul>
+<button class="w-full bg-on-primary text-on-background py-3 rounded-lg font-bold text-body-sm hover:bg-surface-variant transition-colors mb-2">
+                            Upgrade to Enterprise
+                        </button>
+<p class="text-center text-[11px] opacity-60">Next billing on Nov 24, 2024</p>
+</div>
+</section>
+<section class="bg-surface-container p-4 rounded-xl border border-outline-variant">
+<h5 class="font-bold text-body-sm mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">rocket_launch</span>
+                        Quick Tips
+                    </h5>
+<p class="text-[13px] text-on-surface-variant leading-relaxed">
+                        Setting a default tax rate saves up to 45 seconds per invoice. You can always override it for specific line items.
+                    </p>
+</section>
+</div>
+</div>
+</main>
+<script>
+        // Simple micro-interaction for input fields
+        const inputs = document.querySelectorAll('input, select, textarea');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.querySelector('label')?.classList.add('text-primary');
+            });
+            input.addEventListener('blur</script></body></html>

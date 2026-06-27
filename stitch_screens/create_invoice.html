@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .preview-scale {
+            transform: scale(0.95);
+            transform-origin: top center;
+        }
+        @media (min-width: 1280px) {
+            .preview-scale {
+                transform: scale(1);
+            }
+        }
+        /* Custom scrollbar for productivity */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #E5E7EB;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D1D5DB;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#141b2b",
+                        "inverse-surface": "#293040",
+                        "tertiary-fixed": "#ffdad7",
+                        "tertiary-container": "#c02028",
+                        "surface-tint": "#364ae4",
+                        "inverse-primary": "#bcc2ff",
+                        "error": "#ba1a1a",
+                        "text-muted": "#737C8C",
+                        "primary-fixed-dim": "#bcc2ff",
+                        "surface-container-low": "#f1f3ff",
+                        "on-secondary-fixed": "#002113",
+                        "border-muted": "#E5E7EB",
+                        "secondary-fixed-dim": "#4edea3",
+                        "on-tertiary-container": "#ffd6d2",
+                        "surface-dim": "#d3daef",
+                        "on-surface": "#141b2b",
+                        "surface-variant": "#dce2f7",
+                        "tertiary-fixed-dim": "#ffb3ad",
+                        "secondary": "#006c49",
+                        "on-surface-variant": "#444655",
+                        "on-tertiary-fixed": "#410004",
+                        "on-secondary-fixed-variant": "#005236",
+                        "on-primary-fixed": "#000b63",
+                        "secondary-container": "#6cf8bb",
+                        "secondary-fixed": "#6ffbbe",
+                        "on-primary-container": "#dbddff",
+                        "primary-container": "#3b4fe8",
+                        "on-primary": "#ffffff",
+                        "surface-container": "#e9edff",
+                        "on-tertiary": "#ffffff",
+                        "surface-elevated": "#FFFFFF",
+                        "surface": "#f9f9ff",
+                        "surface-container-high": "#e1e8fd",
+                        "inverse-on-surface": "#edf0ff",
+                        "error-container": "#ffdad6",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#dfe0ff",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed-variant": "#122bcd",
+                        "outline-variant": "#c5c5d8",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#00714d",
+                        "surface-bright": "#f9f9ff",
+                        "primary": "#1a31d0",
+                        "tertiary": "#9b0015",
+                        "surface-container-highest": "#dce2f7",
+                        "background": "#f9f9ff",
+                        "on-tertiary-fixed-variant": "#930013",
+                        "outline": "#757687",
+                        "on-error-container": "#93000a",
+                        "bg-subtle": "#F9FAFB"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sidebar-width": "240px",
+                        "base": "8px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "margin-desktop": "32px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "body-sm": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "headline-sm": ["Plus Jakarta Sans"],
+                        "mono-label": ["JetBrains Mono"],
+                        "mono-data": ["JetBrains Mono"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                        "mono-label": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "headline-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-hidden">
+<!-- Top Navigation Anchor (As requested by JSON) -->
+<header class="docked sticky top-0 z-40 w-full flex justify-between items-center h-16 px-margin-desktop bg-surface border-b border-border-muted transition-all duration-200">
+<div class="flex items-center gap-6">
+<span class="text-headline-sm font-headline-sm font-bold text-on-surface">Invoizmo</span>
+<div class="hidden md:flex items-center bg-surface-container-low px-3 py-1.5 rounded border border-outline-variant">
+<span class="material-symbols-outlined text-outline mr-2 text-[20px]">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-sm w-64" placeholder="Search invoices..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined">help</span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a female financial controller in a modern office, wearing a sharp navy blazer, looking confident and approachable. The lighting is crisp and even, fitting a high-productivity SaaS aesthetic with soft blue and white tones in the background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIUiG_C-mfjGOZB1BdnXZS_ZyrF7wPiA9LpQUDrmvjDO2kJL9udN252KeNAqATjE7-IiTMxJHgNu5ts8Ef8VSKgE8UfmpqabXbufWGIDA3FBtxGsvVNYSIWH8K3wXvIWW1VRehEpcYVnaB3-rUivhOEyCo69udbGhH98nHBro7sokF2Y0L4f7sY2u3aeyTPWqrcpyIi0SNf-3A0HTk9g58T2XG1xjJ8FBdarhXNlP1SyyQcxJUZir0fhz4XGLQ8V0B7x6pP7EKXbTi"/>
+</div>
+</div>
+</header>
+<div class="flex h-[calc(100vh-64px)] overflow-hidden">
+<!-- Sidebar Navigation (As requested by JSON) -->
+<aside class="hidden lg:flex flex-col h-full py-base w-sidebar-width bg-surface border-r border-border-muted shrink-0">
+<div class="px-4 mb-8">
+<div class="flex items-center gap-3 p-2 bg-surface-container-low rounded border border-outline-variant">
+<div class="w-8 h-8 bg-primary rounded flex items-center justify-center text-white font-bold">A</div>
+<div class="overflow-hidden">
+<p class="text-body-sm font-bold truncate">Acme Corp</p>
+<p class="text-[10px] text-text-muted truncate">Workspace: Pro Plan</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-2 space-y-1">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors duration-200 rounded" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-body-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-primary border-l-2 border-primary bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="text-body-sm font-bold">Invoices</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors duration-200 rounded" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-body-sm">Clients</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors duration-200 rounded" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-body-sm">Products</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors duration-200 rounded" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-body-sm">Payments</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors duration-200 rounded" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-body-sm">Reports</span>
+</a>
+</nav>
+<div class="px-4 mt-auto space-y-1 border-t border-border-muted pt-4">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container transition-colors rounded" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-body-sm">Settings</span>
+</a>
+<button class="w-full mt-4 bg-primary text-white py-2 rounded font-body-sm font-bold hover:bg-opacity-90 transition-all">
+                    Upgrade Plan
+                </button>
+</div>
+</aside>
+<!-- Split Panel Layout -->
+<main class="flex-1 flex flex-col md:flex-row overflow-hidden">
+<!-- Left Panel: Form Details -->
+<section class="flex-1 overflow-y-auto bg-surface p-6 lg:p-8 border-r border-border-muted custom-scrollbar">
+<div class="max-w-3xl mx-auto space-y-10 pb-24">
+<header class="flex justify-between items-end">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-background">Create Invoice</h1>
+<p class="text-text-muted font-body-sm">Fill out the details below to generate your invoice.</p>
+</div>
+<div class="text-right">
+<span class="text-mono-label uppercase tracking-wider text-text-muted">Invoice No.</span>
+<input class="block w-40 text-right font-mono-data bg-transparent border-none p-0 focus:ring-0 text-primary" type="text" value="INV-2023-004"/>
+</div>
+</header>
+<!-- Core Info -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<div class="space-y-4">
+<label class="block">
+<span class="text-mono-label font-bold text-on-surface-variant">Client</span>
+<div class="mt-1 flex gap-2">
+<select class="flex-1 rounded border-border-muted focus:border-primary focus:ring-primary font-body-sm">
+<option>Starlight Interactive</option>
+<option>NexGen Systems</option>
+<option>Global Logistics Ltd</option>
+</select>
+<button class="px-3 py-2 border border-border-muted rounded hover:bg-surface-container transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">person_add</span>
+</button>
+</div>
+</label>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<label class="block">
+<span class="text-mono-label font-bold text-on-surface-variant">Issue Date</span>
+<input class="mt-1 w-full rounded border-border-muted focus:border-primary focus:ring-primary font-body-sm" type="date" value="2023-11-20"/>
+</label>
+<label class="block">
+<span class="text-mono-label font-bold text-on-surface-variant">Due Date</span>
+<input class="mt-1 w-full rounded border-border-muted focus:border-primary focus:ring-primary font-body-sm" type="date" value="2023-12-20"/>
+</label>
+</div>
+</div>
+<!-- Line Items Table -->
+<div class="space-y-4">
+<div class="flex justify-between items-center">
+<h3 class="text-headline-sm font-bold">Line Items</h3>
+<button class="text-primary font-body-sm font-bold flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined">add_circle</span> Add Row
+                            </button>
+</div>
+<div class="border border-border-muted rounded-lg overflow-hidden bg-white shadow-sm">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low border-b border-border-muted">
+<tr class="text-mono-label text-on-surface-variant">
+<th class="px-4 py-3 w-10"></th>
+<th class="px-4 py-3">Item Description</th>
+<th class="px-4 py-3 w-20 text-center">Qty</th>
+<th class="px-4 py-3 w-32 text-right">Price</th>
+<th class="px-4 py-3 w-32 text-right">Total</th>
+<th class="px-4 py-3 w-12"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-muted">
+<tr class="group hover:bg-surface-container-lowest transition-colors">
+<td class="px-2 py-4 text-center cursor-move text-outline">
+<span class="material-symbols-outlined text-[18px]">drag_indicator</span>
+</td>
+<td class="px-4 py-4">
+<input class="w-full border-none p-0 focus:ring-0 text-body-sm font-medium" type="text" value="Brand Identity Design"/>
+</td>
+<td class="px-4 py-4">
+<input class="w-full border-none p-0 focus:ring-0 text-center text-body-sm" type="number" value="1"/>
+</td>
+<td class="px-4 py-4 text-right">
+<input class="w-full border-none p-0 focus:ring-0 text-right font-mono-data" type="text" value="$3,500.00"/>
+</td>
+<td class="px-4 py-4 text-right font-mono-data font-bold">$3,500.00</td>
+<td class="px-4 py-4 text-center">
+<button class="text-error opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</td>
+</tr>
+<tr class="group hover:bg-surface-container-lowest transition-colors">
+<td class="px-2 py-4 text-center cursor-move text-outline">
+<span class="material-symbols-outlined text-[18px]">drag_indicator</span>
+</td>
+<td class="px-4 py-4">
+<input class="w-full border-none p-0 focus:ring-0 text-body-sm font-medium" type="text" value="UI/UX Prototype Development"/>
+</td>
+<td class="px-4 py-4">
+<input class="w-full border-none p-0 focus:ring-0 text-center text-body-sm" type="number" value="40"/>
+</td>
+<td class="px-4 py-4 text-right">
+<input class="w-full border-none p-0 focus:ring-0 text-right font-mono-data" type="text" value="$85.00"/>
+</td>
+<td class="px-4 py-4 text-right font-mono-data font-bold">$3,400.00</td>
+<td class="px-4 py-4 text-center">
+<button class="text-error opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Taxes, Discounts & Totals -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<div class="space-y-6">
+<div>
+<h3 class="text-body-sm font-bold mb-3">Notes &amp; Terms</h3>
+<textarea class="w-full h-32 rounded border-border-muted focus:border-primary focus:ring-primary text-body-sm" placeholder="Add payment instructions, late fee details, etc." rows="4">Thank you for your business. Please process payment within 30 days of receiving this invoice.</textarea>
+</div>
+<div class="flex items-center gap-4">
+<label class="flex items-center gap-2 cursor-pointer">
+<input checked="" class="rounded text-primary focus:ring-primary border-border-muted" type="checkbox"/>
+<span class="text-body-sm">Include Late Fee Term</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer">
+<input class="rounded text-primary focus:ring-primary border-border-muted" type="checkbox"/>
+<span class="text-body-sm">Tax Exempt</span>
+</label>
+</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-lg border border-outline-variant space-y-4">
+<div class="flex justify-between text-body-sm">
+<span class="text-on-surface-variant">Subtotal</span>
+<span class="font-mono-data">$6,900.00</span>
+</div>
+<div class="flex justify-between text-body-sm items-center">
+<span class="text-on-surface-variant">Tax (VAT 10%)</span>
+<div class="flex items-center gap-2">
+<input class="w-16 text-right rounded border-border-muted py-1 px-2 text-xs font-mono-data" type="text" value="10%"/>
+<span class="font-mono-data">$690.00</span>
+</div>
+</div>
+<div class="flex justify-between text-body-sm items-center">
+<span class="text-on-surface-variant">Discount</span>
+<div class="flex items-center gap-2">
+<input class="w-16 text-right rounded border-border-muted py-1 px-2 text-xs font-mono-data" placeholder="0%" type="text"/>
+<span class="font-mono-data">$0.00</span>
+</div>
+</div>
+<div class="pt-4 border-t border-outline-variant flex justify-between items-baseline">
+<span class="font-headline-sm font-bold">Total Amount</span>
+<span class="text-headline-md font-bold text-primary font-mono-data">$7,590.00</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Panel: Live Preview -->
+<section class="hidden md:flex w-full md:w-[450px] xl:w-[600px] bg-inverse-surface p-8 overflow-y-auto items-start justify-center custom-scrollbar">
+<div class="w-full max-w-[500px] bg-white rounded shadow-2xl p-10 min-h-[700px] preview-scale flex flex-col">
+<!-- Preview Header -->
+<div class="flex justify-between items-start mb-12">
+<div class="space-y-4">
+<div class="w-12 h-12 bg-on-background rounded flex items-center justify-center text-white font-black text-xl">IZ</div>
+<div>
+<h4 class="font-bold text-lg">Invoizmo Solutions Inc.</h4>
+<p class="text-xs text-text-muted">742 Evergreen Terrace, Springfield<br/>United States, 62704</p>
+</div>
+</div>
+<div class="text-right">
+<h2 class="text-3xl font-black text-on-background uppercase tracking-tighter mb-2">Invoice</h2>
+<div class="space-y-1">
+<p class="text-xs font-bold">Invoice #: <span class="font-normal text-text-muted ml-2">INV-2023-004</span></p>
+<p class="text-xs font-bold">Issue Date: <span class="font-normal text-text-muted ml-2">Nov 20, 2023</span></p>
+<p class="text-xs font-bold">Due Date: <span class="font-normal text-text-muted ml-2 text-error">Dec 20, 2023</span></p>
+</div>
+</div>
+</div>
+<!-- Client Detail -->
+<div class="mb-12">
+<p class="text-[10px] font-bold uppercase tracking-widest text-text-muted mb-2">Billed To:</p>
+<h4 class="font-bold text-md">Starlight Interactive</h4>
+<p class="text-xs text-text-muted">404 Silicon Way, Cyber District<br/>San Francisco, CA 94105</p>
+</div>
+<!-- Items Table -->
+<div class="flex-1">
+<table class="w-full text-left text-xs mb-8">
+<thead>
+<tr class="border-b-2 border-on-background">
+<th class="py-3 font-bold uppercase">Description</th>
+<th class="py-3 font-bold uppercase text-center w-16">Qty</th>
+<th class="py-3 font-bold uppercase text-right w-24">Price</th>
+<th class="py-3 font-bold uppercase text-right w-24">Amount</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-100">
+<tr>
+<td class="py-4">
+<p class="font-bold">Brand Identity Design</p>
+<p class="text-[10px] text-text-muted">Full style guide and logo package.</p>
+</td>
+<td class="py-4 text-center">1</td>
+<td class="py-4 text-right">$3,500.00</td>
+<td class="py-4 text-right font-bold">$3,500.00</td>
+</tr>
+<tr>
+<td class="py-4">
+<p class="font-bold">UI/UX Prototype Development</p>
+<p class="text-[10px] text-text-muted">Interactive Figma wireframes (40 hours).</p>
+</td>
+<td class="py-4 text-center">40</td>
+<td class="py-4 text-right">$85.00</td>
+<td class="py-4 text-right font-bold">$3,400.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Preview Footer/Totals -->
+<div class="mt-auto border-t border-gray-100 pt-8 flex justify-between items-start">
+<div class="w-1/2">
+<p class="text-[10px] font-bold uppercase tracking-widest text-text-muted mb-2">Notes:</p>
+<p class="text-[10px] text-text-muted leading-relaxed">Thank you for your business. Please process payment within 30 days of receiving this invoice.</p>
+</div>
+<div class="w-1/3 space-y-2">
+<div class="flex justify-between text-xs">
+<span class="text-text-muted">Subtotal</span>
+<span>$6,900.00</span>
+</div>
+<div class="flex justify-between text-xs">
+<span class="text-text-muted">Tax (10%)</span>
+<span>$690.00</span>
+</div>
+<div class="flex justify-between text-md font-bold pt-2 border-t border-on-background">
+<span>Total</span>
+<span class="text-primary">$7,590.00</span>
+</div>
+</div>
+</div>
+<div class="mt-12 text-center text-[10px] text-text-muted italic">
+                        Generated by Invoizmo — Precision Invoicing for Professionals.
+                    </div>
+</div>
+</section>
+</main>
+</div>
+<!-- Sticky Bottom Action Bar -->
+<div class="fixed bottom-0 left-0 lg:left-sidebar-width right-0 bg-surface border-t border-border-muted p-4 md:px-8 z-50 flex flex-col md:flex-row justify-between items-center gap-4 shadow-[0_-4px_12px_rgba(0,0,0,0.05)]">
+<div class="flex items-center gap-2 text-text-muted font-body-sm">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+            Draft saved automatically at 12:45 PM
+        </div>
+<div class="flex gap-3 w-full md:w-auto">
+<button class="flex-1 md:flex-none px-6 py-2.5 rounded border border-border-muted font-bold text-body-sm hover:bg-surface-container transition-all">
+                Save as Draft
+            </button>
+<button class="flex-1 md:flex-none px-6 py-2.5 rounded bg-surface-container-high text-primary font-bold text-body-sm hover:bg-opacity-80 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+                Preview PDF
+            </button>
+<button class="flex-1 md:flex-none px-8 py-2.5 rounded bg-primary text-white font-bold text-body-sm hover:shadow-lg hover:translate-y-[-1px] transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">send</span>
+                Send Invoice
+            </button>
+</div>
+</div>
+<!-- Micro-interactions Script -->
+<script>
+        // Simple reactive simulation (mock)
+        const inputs = document.querySelectorAll('input, select, textarea');
+        inputs.forEach(input => {
+            input.addEventListener('input', () => {
+                // In a real app, this would update the preview panel Reactively.
+                // We'll just show a visual 'sync' effect.
+                const saveStatus = document.querySelector('.animate-ping').parentElement.nextSibling;
+                if(saveStatus) {
+                   const now = new Date();
+                   const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                   saveStatus.textContent = `Draft saving...`;
+                   setTimeout(() => {
+                        saveStatus.textContent = `Draft saved automatically at ${timeString}`;
+                   }, 800);
+                }
+            });
+        });
+    </script>
+</body></html>

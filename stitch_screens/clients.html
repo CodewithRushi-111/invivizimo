@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Invoizmo - Client Directory</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#141b2b",
+                        "inverse-surface": "#293040",
+                        "tertiary-fixed": "#ffdad7",
+                        "tertiary-container": "#c02028",
+                        "surface-tint": "#364ae4",
+                        "inverse-primary": "#bcc2ff",
+                        "error": "#ba1a1a",
+                        "text-muted": "#737C8C",
+                        "primary-fixed-dim": "#bcc2ff",
+                        "surface-container-low": "#f1f3ff",
+                        "on-secondary-fixed": "#002113",
+                        "border-muted": "#E5E7EB",
+                        "secondary-fixed-dim": "#4edea3",
+                        "on-tertiary-container": "#ffd6d2",
+                        "surface-dim": "#d3daef",
+                        "on-surface": "#141b2b",
+                        "surface-variant": "#dce2f7",
+                        "tertiary-fixed-dim": "#ffb3ad",
+                        "secondary": "#006c49",
+                        "on-surface-variant": "#444655",
+                        "on-tertiary-fixed": "#410004",
+                        "on-secondary-fixed-variant": "#005236",
+                        "on-primary-fixed": "#000b63",
+                        "secondary-container": "#6cf8bb",
+                        "secondary-fixed": "#6ffbbe",
+                        "on-primary-container": "#dbddff",
+                        "primary-container": "#3b4fe8",
+                        "on-primary": "#ffffff",
+                        "surface-container": "#e9edff",
+                        "on-tertiary": "#ffffff",
+                        "surface-elevated": "#FFFFFF",
+                        "surface": "#f9f9ff",
+                        "surface-container-high": "#e1e8fd",
+                        "inverse-on-surface": "#edf0ff",
+                        "error-container": "#ffdad6",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#dfe0ff",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed-variant": "#122bcd",
+                        "outline-variant": "#c5c5d8",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#00714d",
+                        "surface-bright": "#f9f9ff",
+                        "primary": "#1a31d0",
+                        "tertiary": "#9b0015",
+                        "surface-container-highest": "#dce2f7",
+                        "background": "#f9f9ff",
+                        "on-tertiary-fixed-variant": "#930013",
+                        "outline": "#757687",
+                        "on-error-container": "#93000a",
+                        "bg-subtle": "#F9FAFB"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sidebar-width": "240px",
+                        "base": "8px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "margin-desktop": "32px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "body-sm": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "headline-sm": ["Plus Jakarta Sans"],
+                        "mono-label": ["JetBrains Mono"],
+                        "mono-data": ["JetBrains Mono"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                        "mono-label": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "headline-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #f9f9ff;
+            color: #141b2b;
+        }
+        .sidebar-item-active {
+            border-left-width: 2px;
+        }
+        .client-card:hover {
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
+        }
+        /* Custom scrollbar for desktop */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #E5E7EB;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md overflow-x-hidden">
+<!-- SideNavBar Anchor -->
+<aside class="docked fixed left-0 top-0 h-screen w-sidebar-width bg-surface border-r border-border-muted flex flex-col py-base z-50 hidden md:flex">
+<!-- Brand Header -->
+<div class="px-6 py-4 mb-6">
+<h1 class="text-headline-sm font-headline-sm font-bold text-on-surface">Invoizmo</h1>
+<p class="text-body-sm font-body-sm text-on-surface-variant opacity-70">Workspace: Acme Corp</p>
+</div>
+<!-- Navigation Links -->
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-body-md">Invoices</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-primary border-l-2 border-primary bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="group" style="font-variation-settings: 'FILL' 1;">group</span>
+<span class="font-body-md font-semibold">Clients</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-body-md">Products</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-body-md">Payments</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-body-md">Reports</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-md">Settings</span>
+</a>
+</nav>
+<!-- Footer Actions -->
+<div class="px-4 mt-auto pt-4 space-y-1">
+<div class="px-4 py-3 mb-4 rounded-xl bg-primary text-on-primary">
+<p class="text-body-sm font-semibold mb-1">Upgrade Plan</p>
+<p class="text-[11px] opacity-80 leading-tight">Get unlimited clients and pro reporting.</p>
+</div>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-body-md">Support</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-body-md">Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- TopNavBar Anchor -->
+<header class="docked sticky top-0 z-40 w-full bg-surface border-b border-border-muted shadow-sm flex justify-between items-center h-16 px-margin-desktop md:ml-sidebar-width transition-all duration-200">
+<div class="flex items-center gap-4 flex-1">
+<button class="md:hidden p-2 -ml-2 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<div class="relative max-w-md w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-body-lg" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-lowest border border-border-muted rounded-lg focus:outline-none focus:ring-1 focus:ring-primary text-body-sm font-body-sm" placeholder="Search clients, companies..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex gap-2 mr-2">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+</div>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg font-body-sm font-semibold flex items-center gap-2 hover:bg-opacity-90 transition-all shadow-sm">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+<span>+ New Invoice</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-high border border-border-muted overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional studio headshot of a friendly business executive with short hair, wearing a clean charcoal grey blazer. The background is a soft, out-of-focus modern office interior with warm natural lighting and minimalist decor. High-quality digital photography with a crisp, premium SaaS aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWX5VEyosHYV88pKZBNyPeQoLD08iowaEZgO4Haqh0-EF9-AGjmCZw9trVJmDlxFo20ZXVYRRfmWNy4m8Jint2Iqctsj_kduQ944ewc0kLHuGf5_k4O_9EzqZ2prc4vOUMrsipW1-_vZ9Cgt3djALKfPJKzq_6HZx6pligEH1D799C4wppgyobZVWhiNEHR22jwz7pO8VTu3o24cXEocNF6bVFxrGCm7WUjZrNfhP6bR-4-5VpIPkw8EcpFHY0b6gp18S8YqT6lGKt"/>
+</div>
+</div>
+</header>
+<!-- Main Workspace Content -->
+<main class="md:ml-sidebar-width min-h-screen p-margin-desktop bg-background">
+<div class="max-w-container-max mx-auto">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-gutter mb-10">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-background mb-1">Client Directory</h2>
+<p class="text-on-surface-variant font-body-md opacity-80">Manage your business relationships and track billing history.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 bg-surface-elevated border border-border-muted rounded-lg font-body-sm font-medium text-on-surface-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
+                        Filter
+                    </button>
+<button class="flex items-center gap-2 px-5 py-2 bg-primary text-on-primary rounded-lg font-body-sm font-semibold hover:shadow-lg transition-all">
+<span class="material-symbols-outlined" data-icon="person_add">person_add</span>
+                        Add Client
+                    </button>
+</div>
+</div>
+<!-- Dashboard Stats Summary (Bento Lite) -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter mb-12">
+<div class="bg-surface-elevated p-6 border border-border-muted rounded-xl flex flex-col justify-between">
+<span class="text-mono-label font-mono-label text-text-muted uppercase tracking-wider">Total Clients</span>
+<span class="text-headline-md font-headline-md text-on-surface mt-2">124</span>
+</div>
+<div class="bg-surface-elevated p-6 border border-border-muted rounded-xl flex flex-col justify-between">
+<span class="text-mono-label font-mono-label text-text-muted uppercase tracking-wider">Active Projects</span>
+<span class="text-headline-md font-headline-md text-on-surface mt-2">42</span>
+</div>
+<div class="bg-surface-elevated p-6 border border-border-muted rounded-xl flex flex-col justify-between">
+<span class="text-mono-label font-mono-label text-text-muted uppercase tracking-wider">Avg. LTV</span>
+<span class="text-headline-md font-headline-md text-on-surface mt-2 font-mono-data">$4,280</span>
+</div>
+<div class="bg-primary p-6 rounded-xl flex flex-col justify-between text-on-primary shadow-lg shadow-primary/10">
+<span class="text-mono-label font-mono-label opacity-80 uppercase tracking-wider">Receivables</span>
+<span class="text-headline-md font-headline-md mt-2 font-mono-data">$18,450.00</span>
+</div>
+</div>
+<!-- Client Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter">
+<!-- Client Card 1 -->
+<div class="client-card bg-surface-container-lowest border border-border-muted p-6 rounded-xl flex flex-col transition-all duration-300">
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-primary font-bold text-lg">
+                            AS
+                        </div>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container/20 text-secondary text-mono-label font-semibold">Active</span>
+</div>
+<div class="mb-6">
+<h3 class="text-body-lg font-semibold text-on-surface mb-0.5">Alex Sterling</h3>
+<p class="text-body-sm text-on-surface-variant opacity-70">Sterling Creative Agency</p>
+</div>
+<div class="mt-auto pt-6 border-t border-border-muted flex justify-between items-end">
+<div>
+<p class="text-mono-label text-text-muted uppercase mb-1">Total Billed</p>
+<p class="text-mono-data font-mono-data text-on-surface">$12,450.00</p>
+</div>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Client Card 2 -->
+<div class="client-card bg-surface-container-lowest border border-border-muted p-6 rounded-xl flex flex-col transition-all duration-300">
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 rounded-lg overflow-hidden border border-border-muted">
+<img class="w-full h-full object-cover" data-alt="A minimalist logo for a tech startup called Nova Labs. The design features a stylized abstract letter N with clean geometric lines, set against a soft lavender background. Minimalist Swiss design style with high-end corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjh7e4yESdJ73Njaa0YrubbJoip67VTIrCTEm12O-mThyQwQgeZN9cR5QKx31FP4C2_zwuVtMyoHUL9V5GtrSQTNNK6JTMoHWbgk-ImHKdDd_gTZ1T4CqfeZPNljFtH01FMTW-kKlwjZc_JOKUdlVkkG0ObHdoS1o6pNAzlVjfO9eDCgrda-xTRSxsx_46UuPDsWApkmKoMIB5aUTPh9dsb2Qo5LST6PmPUHWPxcvhV2kd784Y3otUftW47rJg0cabOZqe4t-4QCAW"/>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container/20 text-secondary text-mono-label font-semibold">Active</span>
+</div>
+<div class="mb-6">
+<h3 class="text-body-lg font-semibold text-on-surface mb-0.5">Jordan Vane</h3>
+<p class="text-body-sm text-on-surface-variant opacity-70">Nova Labs Inc.</p>
+</div>
+<div class="mt-auto pt-6 border-t border-border-muted flex justify-between items-end">
+<div>
+<p class="text-mono-label text-text-muted uppercase mb-1">Total Billed</p>
+<p class="text-mono-data font-mono-data text-on-surface">$45,200.00</p>
+</div>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Client Card 3 -->
+<div class="client-card bg-surface-container-lowest border border-border-muted p-6 rounded-xl flex flex-col transition-all duration-300">
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-primary font-bold text-lg">
+                            MC
+                        </div>
+<span class="px-2 py-0.5 rounded-full bg-outline-variant/30 text-on-surface-variant text-mono-label font-semibold">Inactive</span>
+</div>
+<div class="mb-6">
+<h3 class="text-body-lg font-semibold text-on-surface mb-0.5">Morgan Chen</h3>
+<p class="text-body-sm text-on-surface-variant opacity-70">Chen Design Studio</p>
+</div>
+<div class="mt-auto pt-6 border-t border-border-muted flex justify-between items-end">
+<div>
+<p class="text-mono-label text-text-muted uppercase mb-1">Total Billed</p>
+<p class="text-mono-data font-mono-data text-on-surface">$2,100.00</p>
+</div>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Client Card 4 -->
+<div class="client-card bg-surface-container-lowest border border-border-muted p-6 rounded-xl flex flex-col transition-all duration-300">
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-primary font-bold text-lg">
+                            RE
+                        </div>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container/20 text-secondary text-mono-label font-semibold">Active</span>
+</div>
+<div class="mb-6">
+<h3 class="text-body-lg font-semibold text-on-surface mb-0.5">Riley Evans</h3>
+<p class="text-body-sm text-on-surface-variant opacity-70">Evergreen Properties</p>
+</div>
+<div class="mt-auto pt-6 border-t border-border-muted flex justify-between items-end">
+<div>
+<p class="text-mono-label text-text-muted uppercase mb-1">Total Billed</p>
+<p class="text-mono-data font-mono-data text-on-surface">$8,740.50</p>
+</div>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Client Card 5 -->
+<div class="client-card bg-surface-container-lowest border border-border-muted p-6 rounded-xl flex flex-col transition-all duration-300">
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 rounded-lg overflow-hidden border border-border-muted">
+<img class="w-full h-full object-cover" data-alt="A clean, modern brand emblem for a luxury architecture firm named Pillars Group. The logo features three vertical minimal pillars in deep navy blue on a crisp white circular badge. High-end, architectural aesthetic with sharp lines and sophisticated negative space." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBC4-jKN8ooZzmzLdOLPJU4ewyieJbr5lLlpQPIpicn5nS6Bo_SAIJxGaQwDgDVG0HkLgnFz1Dnzl1s_A9w8yS3nfxFYV7MubiZflxDHwXm8zgAId4W8crsO7D7Mefk5-COWcRyJBmgvgIlQtRcMcGc2aefnjV1zQfeB1PDAn42QrO8Z1C6MywO21tepuX9f88hEWGwg_OK5HwIBKKGx6wfnOxqkdGESQG_XBvg2drcOZiql6ZPhM-3QkDZSyft9beFOz1VrDZMWgJE"/>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container/20 text-secondary text-mono-label font-semibold">Active</span>
+</div>
+<div class="mb-6">
+<h3 class="text-body-lg font-semibold text-on-surface mb-0.5">Samira Hadad</h3>
+<p class="text-body-sm text-on-surface-variant opacity-70">Pillars Group</p>
+</div>
+<div class="mt-auto pt-6 border-t border-border-muted flex justify-between items-end">
+<div>
+<p class="text-mono-label text-text-muted uppercase mb-1">Total Billed</p>
+<p class="text-mono-data font-mono-data text-on-surface">$31,200.00</p>
+</div>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Client Card 6 -->
+<div class="client-card bg-surface-container-lowest border border-border-muted p-6 rounded-xl flex flex-col transition-all duration-300">
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-primary font-bold text-lg">
+                            TK
+                        </div>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container/20 text-secondary text-mono-label font-semibold">Active</span>
+</div>
+<div class="mb-6">
+<h3 class="text-body-lg font-semibold text-on-surface mb-0.5">Tyson Kross</h3>
+<p class="text-body-sm text-on-surface-variant opacity-70">Kross Media Hub</p>
+</div>
+<div class="mt-auto pt-6 border-t border-border-muted flex justify-between items-end">
+<div>
+<p class="text-mono-label text-text-muted uppercase mb-1">Total Billed</p>
+<p class="text-mono-data font-mono-data text-on-surface">$1,450.00</p>
+</div>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Client Card 7 -->
+<div class="client-card bg-surface-container-lowest border border-border-muted p-6 rounded-xl flex flex-col transition-all duration-300">
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-primary font-bold text-lg">
+                            LL
+                        </div>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container/20 text-secondary text-mono-label font-semibold">Active</span>
+</div>
+<div class="mb-6">
+<h3 class="text-body-lg font-semibold text-on-surface mb-0.5">Lila Lawson</h3>
+<p class="text-body-sm text-on-surface-variant opacity-70">Lawson &amp; Co.</p>
+</div>
+<div class="mt-auto pt-6 border-t border-border-muted flex justify-between items-end">
+<div>
+<p class="text-mono-label text-text-muted uppercase mb-1">Total Billed</p>
+<p class="text-mono-data font-mono-data text-on-surface">$16,800.00</p>
+</div>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Add New Client Placeholder -->
+<button class="group border-2 border-dashed border-border-muted hover:border-primary hover:bg-surface-container-low p-6 rounded-xl flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all duration-300">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center mb-3 group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-headline-sm" data-icon="add">add</span>
+</div>
+<span class="font-semibold text-body-md">New Client</span>
+<p class="text-mono-label mt-1 opacity-60">Add manual or import</p>
+</button>
+</div>
+<!-- Pagination/Load More -->
+<div class="mt-12 flex justify-center">
+<button class="px-6 py-3 bg-surface-elevated border border-border-muted rounded-full font-body-sm font-semibold text-on-surface-variant hover:bg-surface-container transition-all flex items-center gap-2">
+                    Load More Clients
+                    <span class="material-symbols-outlined text-body-md" data-icon="expand_more">expand_more</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Mobile Bottom Navigation (Visible on mobile only) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-surface border-t border-border-muted flex items-center justify-around px-4 z-50">
+<a class="flex flex-col items-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-[10px] font-medium">Home</span>
+</a>
+<a class="flex flex-col items-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="text-[10px] font-medium">Invoices</span>
+</a>
+<a class="flex flex-col items-center text-primary" href="#">
+<span class="material-symbols-outlined" data-icon="group" style="font-variation-settings: 'FILL' 1;">group</span>
+<span class="text-[10px] font-bold">Clients</span>
+</a>
+<a class="flex flex-col items-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-[10px] font-medium">Settings</span>
+</a>
+</nav>
+<script>
+        // Simple interactivity for the search bar focus effect
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('ring-2', 'ring-primary/20');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('ring-2', 'ring-primary/20');
+        });
+
+        // Toggle sidebar on mobile
+        const menuBtn = document.querySelector('button.md\\:hidden');
+        menuBtn.addEventListener('click', () => {
+            alert('Mobile Sidebar Menu Triggered');
+            // Logic for a real drawer would go here
+        });
+    </script>
+</body></html>

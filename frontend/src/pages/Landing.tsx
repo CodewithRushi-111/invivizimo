@@ -8,25 +8,37 @@ export const Landing: React.FC = () => {
   const { primaryColor } = useTheme();
 
   return (
-    <div style={styles.container}>
+    <div className="min-h-screen flex flex-col bg-background text-on-background font-sans selection:bg-primary-fixed selection:text-on-primary-fixed">
       {/* Navigation Header */}
-      <header className="glass-panel" style={styles.header}>
-        <div style={styles.headerContent}>
-          <div style={styles.logoArea}>
-            <span style={{ ...styles.logoIcon, backgroundColor: primaryColor }}>I</span>
-            <span style={styles.logoText}>Invivizimo</span>
+      <header className="sticky top-0 z-50 backdrop-blur-md bg-background/80 border-b border-border-muted">
+        <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="bg-white px-4 py-2 rounded-xl flex items-center justify-center shadow-md">
+              <img src="/logo.png" alt="Invoizmo" className="h-8 object-contain" />
+            </div>
+            <span className="font-display text-2xl font-extrabold tracking-tight">Invoizmo</span>
           </div>
-          <nav style={styles.navLinks}>
+
+          <nav className="flex items-center gap-4">
             {user ? (
-              <Link to="/dashboard" className="btn btn-primary" style={styles.navBtn}>
+              <Link 
+                to="/dashboard" 
+                className="px-5 py-2.5 bg-primary-container hover:bg-primary text-on-primary font-semibold rounded-lg transition-all duration-300 text-sm shadow-sm hover:shadow"
+              >
                 Enter Workspace
               </Link>
             ) : (
               <>
-                <Link to="/login" className="btn btn-secondary" style={styles.navBtnLink}>
+                <Link 
+                  to="/login" 
+                  className="px-4 py-2.5 text-on-surface-variant hover:text-on-surface font-semibold transition-colors text-sm"
+                >
                   Sign In
                 </Link>
-                <Link to="/register" className="btn btn-primary" style={styles.navBtn}>
+                <Link 
+                  to="/register" 
+                  className="px-5 py-2.5 bg-primary-container hover:bg-primary text-on-primary font-semibold rounded-lg transition-all duration-300 text-sm shadow-sm hover:shadow"
+                >
                   Start Free
                 </Link>
               </>
@@ -36,284 +48,100 @@ export const Landing: React.FC = () => {
       </header>
 
       {/* Hero Section */}
-      <section style={styles.heroSection}>
-        <div style={styles.heroGrid}>
-          <div style={styles.heroLeft}>
-            <span className="status-badge" style={{ marginBottom: '16px', color: primaryColor }}>
-              ⚡ Release v1.0.0
+      <section className="flex-grow max-w-6xl mx-auto px-6 py-12 md:py-24 flex items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="text-left space-y-6">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-primary-container/10 border border-primary/20" style={{ color: primaryColor }}>
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
+              Release v1.0.0
             </span>
-            <h1 style={styles.heroTitle}>
+            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight">
               Beautiful Invoicing for <span style={{ color: primaryColor }}>Modern Teams</span>
             </h1>
-            <p style={styles.heroSubtitle}>
-              Streamline client billing with custom branding, dynamic itemized calculators, multi-currency support (USD/INR), and robust security.
+            <p className="text-base md:text-lg text-on-surface-variant leading-relaxed">
+              Streamline client billing with custom branding, dynamic itemized calculators, multi-currency support (USD/INR), and robust security built for high-growth businesses.
             </p>
-            <div style={styles.ctaWrapper}>
+            <div className="flex flex-wrap gap-4 pt-2">
               <Link
                 to={user ? '/dashboard' : '/register'}
-                className="btn btn-primary"
-                style={styles.heroCta}
+                className="px-6 py-3.5 bg-primary-container hover:bg-primary text-on-primary font-semibold rounded-lg transition-all duration-300 text-sm md:text-base shadow-md hover:shadow-lg"
               >
                 Get Started Instantly
               </Link>
-              <a href="#features" className="btn btn-secondary" style={styles.heroSecondary}>
+              <a 
+                href="#features" 
+                className="px-6 py-3.5 bg-surface-container-high border border-border-muted text-on-surface hover:bg-surface-container-highest font-semibold rounded-lg transition-colors text-sm md:text-base"
+              >
                 Learn More
               </a>
             </div>
           </div>
 
           {/* Interactive Mockup Grid */}
-          <div style={styles.heroRight}>
-            <div className="card glass-panel" style={styles.mockCard}>
-              <div style={styles.mockHeader}>
-                <div style={styles.mockDotRow}>
-                  <span style={styles.redDot}></span>
-                  <span style={styles.yellowDot}></span>
-                  <span style={styles.greenDot}></span>
+          <div className="relative flex justify-center lg:justify-end">
+            <div className="absolute inset-0 bg-primary-container/5 rounded-3xl blur-[80px] pointer-events-none" />
+            <div className="relative w-full max-w-[420px] bg-surface-container-lowest border border-border-muted rounded-2xl p-6 shadow-2xl transition-all duration-500 hover:-translate-y-2">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex gap-1.5">
+                  <span className="w-3 h-3 rounded-full bg-red-500" />
+                  <span className="w-3 h-3 rounded-full bg-yellow-500" />
+                  <span className="w-3 h-3 rounded-full bg-green-500" />
                 </div>
-                <span style={styles.mockTitle}>Dynamic Calculator</span>
+                <span className="font-mono text-[11px] text-text-muted uppercase tracking-wider">Dynamic Calculator</span>
               </div>
-              <div style={styles.mockItemRow}>
-                <span style={styles.mockItemLabel}>Acme Services</span>
-                <span style={styles.mockItemVal}>$1,250.00</span>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center text-sm font-medium">
+                  <span className="text-on-surface-variant">Acme Services</span>
+                  <span className="font-mono">$1,250.00</span>
+                </div>
+                <div className="border-t border-border-muted pt-4 flex justify-between items-center text-base font-bold">
+                  <span>Total Amount</span>
+                  <span style={{ color: primaryColor }} className="font-mono">$1,250.00</span>
+                </div>
+                <div className="pt-2 flex justify-center">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-secondary/10 border border-secondary/20 text-secondary">
+                    <span className="material-symbols-outlined text-[14px]">sync</span>
+                    Real-Time Sync
+                  </span>
+                </div>
               </div>
-              <div style={{ ...styles.mockItemRow, borderTop: '1px solid var(--border)', paddingTop: '10px' }}>
-                <strong>Total Amount</strong>
-                <strong style={{ color: primaryColor }}>$1,250.00</strong>
-              </div>
-              <span className="status-badge" style={styles.mockBadge}>
-                ✓ Real-Time Sync
-              </span>
             </div>
           </div>
         </div>
       </section>
 
       {/* Features Grid */}
-      <section id="features" style={styles.featuresSection}>
-        <div style={styles.featuresHeader}>
-          <h2>Engineered for Visual Excellence</h2>
-          <p>Everything you need to handle billing without losing track of your aesthetics.</p>
+      <section id="features" className="max-w-6xl mx-auto px-6 py-16 md:py-24 border-t border-border-muted">
+        <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
+          <h2 className="font-display text-3xl md:text-4xl font-extrabold tracking-tight">Engineered for Visual Excellence</h2>
+          <p className="text-on-surface-variant text-sm md:text-base">Everything you need to handle billing without losing track of your aesthetics.</p>
         </div>
 
-        <div style={styles.featuresGrid}>
-          <div className="card" style={styles.featureCard}>
-            <div style={{ ...styles.featureIcon, color: primaryColor }}>🎨</div>
-            <h3>Custom UI Theme Settings</h3>
-            <p>Select from premium preset accent schemes or picker brand custom hex colors. Syncs to local storage.</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="bg-surface-container-lowest border border-border-muted rounded-2xl p-8 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-6 bg-primary-container/10 text-primary">🎨</div>
+            <h3 className="text-lg font-bold mb-3">Custom UI Theme Settings</h3>
+            <p className="text-on-surface-variant text-sm leading-relaxed">Select from premium preset accent schemes or pick brand custom hex colors. Syncs automatically to local storage.</p>
           </div>
 
-          <div className="card" style={styles.featureCard}>
-            <div style={{ ...styles.featureIcon, color: primaryColor }}>💵</div>
-            <h3>USD & INR Formatting</h3>
-            <p>Switch currency formats seamlessly on the dashboard. Stored in cents, rendered to match your billing locale.</p>
+          <div className="bg-surface-container-lowest border border-border-muted rounded-2xl p-8 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-6 bg-secondary-container/10 text-secondary">💵</div>
+            <h3 className="text-lg font-bold mb-3">USD & INR Formatting</h3>
+            <p className="text-on-surface-variant text-sm leading-relaxed">Switch currency formats seamlessly on the dashboard. Stored in cents, rendered to match your billing locale.</p>
           </div>
 
-          <div className="card" style={styles.featureCard}>
-            <div style={{ ...styles.featureIcon, color: primaryColor }}>🔒</div>
-            <h3>Breach & RTR Protection</h3>
-            <p>Refresh token rotation prevents session theft. Logs automatically lock out on brute-force attempts.</p>
+          <div className="bg-surface-container-lowest border border-border-muted rounded-2xl p-8 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-6 bg-error-container/10 text-error">🔒</div>
+            <h3 className="text-lg font-bold mb-3">Breach & RTR Protection</h3>
+            <p className="text-on-surface-variant text-sm leading-relaxed">Refresh token rotation prevents session theft. Logs automatically lock out on brute-force attempts.</p>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer style={styles.footer}>
-        <p>© 2026 Invivizimo Platform. Made with Vanilla CSS aesthetics.</p>
+      <footer className="border-t border-border-muted py-8 text-center bg-surface-container-low text-xs md:text-sm text-on-surface-variant">
+        <p>© 2026 Invivizimo Platform. Styled with Tailwind CSS v4.</p>
       </footer>
     </div>
   );
 };
-
-const styles = {
-  container: {
-    width: '100%',
-    minHeight: '100vh',
-    display: 'flex',
-    flexDirection: 'column' as const,
-    backgroundColor: 'var(--bg-app)',
-  },
-  header: {
-    height: '70px',
-    width: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    padding: '0 32px',
-    position: 'sticky' as const,
-    top: 0,
-    zIndex: 10,
-    borderBottom: '1px solid var(--glass-border)',
-  },
-  headerContent: {
-    width: '1200px',
-    maxWidth: '100%',
-    margin: '0 auto',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  logoArea: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '12px',
-  },
-  logoIcon: {
-    width: '32px',
-    height: '32px',
-    borderRadius: '8px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: '#ffffff',
-    fontWeight: 'bold',
-    fontSize: '18px',
-  },
-  logoText: {
-    fontSize: '20px',
-    fontWeight: '600',
-    color: 'var(--text-primary)',
-  },
-  navLinks: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '16px',
-  },
-  navBtn: {
-    padding: '8px 16px',
-    fontSize: '14px',
-  },
-  navBtnLink: {
-    padding: '8px 16px',
-    fontSize: '14px',
-    background: 'none',
-    border: 'none',
-    textDecoration: 'none',
-  },
-  heroSection: {
-    width: '1200px',
-    maxWidth: '100%',
-    margin: '0 auto',
-    padding: '80px 24px',
-    flex: 1,
-    display: 'flex',
-    alignItems: 'center',
-  },
-  heroGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-    gap: '60px',
-    width: '100%',
-    alignItems: 'center',
-  },
-  heroLeft: {
-    display: 'flex',
-    flexDirection: 'column' as const,
-    alignItems: 'flex-start',
-    textAlign: 'left' as const,
-  },
-  heroTitle: {
-    fontSize: '56px',
-    fontWeight: '700',
-    lineHeight: '1.1',
-    letterSpacing: '-0.03em',
-    marginBottom: '20px',
-    color: 'var(--text-primary)',
-  },
-  heroSubtitle: {
-    fontSize: '18px',
-    lineHeight: '1.6',
-    color: 'var(--text-secondary)',
-    marginBottom: '36px',
-  },
-  ctaWrapper: {
-    display: 'flex',
-    gap: '16px',
-    flexWrap: 'wrap' as const,
-  },
-  heroCta: {
-    padding: '14px 28px',
-    fontSize: '16px',
-    textDecoration: 'none',
-  },
-  heroSecondary: {
-    padding: '14px 28px',
-    fontSize: '16px',
-    textDecoration: 'none',
-  },
-  heroRight: {
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  mockCard: {
-    width: '320px',
-    padding: '24px',
-    borderRadius: 'var(--radius-xl)',
-    display: 'flex',
-    flexDirection: 'column' as const,
-    gap: '16px',
-    border: '1px solid var(--glass-border)',
-    boxShadow: 'var(--shadow-lg)',
-  },
-  mockHeader: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    borderBottom: '1px solid var(--border)',
-    paddingBottom: '12px',
-  },
-  mockDotRow: {
-    display: 'flex',
-    gap: '6px',
-  },
-  redDot: { width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#ef4444' },
-  yellowDot: { width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#eab308' },
-  greenDot: { width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#22c55e' },
-  mockTitle: { fontSize: '13px', fontWeight: '600', color: 'var(--text-secondary)' },
-  mockItemRow: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    fontSize: '15px',
-  },
-  mockItemLabel: { color: 'var(--text-secondary)' },
-  mockItemVal: { fontWeight: '600' },
-  mockBadge: { alignSelf: 'flex-start', fontSize: '11px', marginTop: '8px' },
-  featuresSection: {
-    width: '1200px',
-    maxWidth: '100%',
-    margin: '0 auto',
-    padding: '80px 24px',
-    borderTop: '1px solid var(--border)',
-  },
-  featuresHeader: {
-    textAlign: 'center' as const,
-    marginBottom: '48px',
-    display: 'flex',
-    flexDirection: 'column' as const,
-    gap: '12px',
-  },
-  featuresGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-    gap: '30px',
-  },
-  featureCard: {
-    display: 'flex',
-    flexDirection: 'column' as const,
-    alignItems: 'flex-start',
-    textAlign: 'left' as const,
-    gap: '12px',
-  },
-  featureIcon: {
-    fontSize: '32px',
-    marginBottom: '8px',
-  },
-  footer: {
-    padding: '40px 24px',
-    borderTop: '1px solid var(--border)',
-    textAlign: 'center' as const,
-    color: 'var(--text-muted)',
-    fontSize: '14px',
-  },
-};
-
-export default Landing;
